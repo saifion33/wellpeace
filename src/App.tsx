@@ -1,5 +1,4 @@
 import Loginpage from "./Components/Loginpage.js";
-import "./App.css";
 function App() {
   return (
     <div>
