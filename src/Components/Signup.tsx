@@ -1,9 +1,12 @@
 import Loginimage from "../assets/k-img.png";
 
-function Loginpage() {
+function Signuppage() {
   return (
     <div className="bg-[#AB97D5] min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md p-4">
+        <h2 className="text-left text-6xl font-bold leading-40 tracking-tight text-[#FFFDD0]">
+         wellpeace
+        </h2>
         <h2 className="text-left text-2xl font-bold leading-9 tracking-tight text-[#FFF5E9]">
           Connect.Learn.Thrive
         </h2>
@@ -87,4 +90,4 @@ function Loginpage() {
   );
 }
 
-export default Loginpage;
+export default Signuppage;
