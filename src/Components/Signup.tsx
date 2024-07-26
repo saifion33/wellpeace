@@ -81,16 +81,17 @@ function Signuppage() {
           </div>
           <div>
             <p className="text-center text-stone-50">or continue with</p>
-            <div className="text-3xl mt-3 p-2 rounded flex justify-evenly">
-              <div className="p-1 rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center">
-                <FcGoogle className="cursor-pointer" />
+            <div className=" mt-3 p-2 rounded flex justify-evenly">
+              <div className=" rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center">
+                <FcGoogle className="cursor-pointer text-[42px]" />
               </div>
-              <div className="p-1 rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center">
-                <SiFacebook className="text-blue-600 cursor-pointer" />
+              <div className="p-2 rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center">
+                <SiFacebook className="text-blue-600 cursor-pointer text-4xl" />
               </div>
               <div className="p-1 rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center">
                 <SiLinkedin className="text-blue-800 text-2xl cursor-pointer" />
               </div>
+             
             </div>
           </div>
 
