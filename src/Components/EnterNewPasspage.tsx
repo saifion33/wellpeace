@@ -1,11 +1,10 @@
 
 import { useState } from 'react';
-
+import EnterNewPass from "../assets/EnterNewPass.svg";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import img2 from "../assets/www.canva.com_design_DAGLfH_S2eQ_5BgJ_tj13UBi6sTBugPNcA_edit (2).png";
-
+import { FaChevronLeft } from "react-icons/fa";
 library.add(faLock, faEye, faEyeSlash);
 
 function EnterPassword() {
@@ -16,16 +15,22 @@ function EnterPassword() {
     };
   
     return (
-      <div className="bg-[#AB97D5] min-h-screen flex items-center justify-center">
+      <div className="bg-[#AB97D5] flex items-center justify-center" style={{ minHeight: '116vh' }}>
+        <div className='relative top-12 left-5'>
+        <FaChevronLeft className="text-white w-5 h-5" />
+        </div>
         <div className="w-full max-w-md p-4">
-          <h2 className="text-left text-2xl font-bold leading-9 tracking-tight text-[#FFF5E9]">
-            Enter New Password
-          </h2>
-          <h2 className="text-[#FFF5E9]">
-            Please enter your new password
-          </h2>
-          <div className="flex justify-center my-4">
-          <img src={img2} alt="Image" className="w-32 h-32 object-cover" />
+            <div className='relative p-4'>
+                <h2 className="text-left text-2xl font-bold leading-9 tracking-tight text-[#FFF5E9]"
+                style={{position:'absolute', top:"-1.5rem", left:"3rem" }}>
+                    Enter New Password
+                </h2>
+                <h2 className="text-[#FFF5E9]" style={{position:'absolute', top:"0.5rem",left:"3rem" }}>
+                    Please enter your new password
+                </h2>
+          </div>
+          <div className="flex justify-center my-8">
+          <img src={EnterNewPass} alt="Image" className="w-44 h-52 object-cover" />
         </div>
           <form className="space-y-6 mt-10" action="#" method="POST">
             <div className="relative">
