@@ -1,8 +1,7 @@
 import Loginpage from "./Components/Loginpage.js";
 function App() {
   return (
-    <div>
-      {/* <img src={wellpeaceLogo} alt="wellpeace logo" /> */}
+    <div className="font-ubuntu">
       <Loginpage />
     </div>
   );
