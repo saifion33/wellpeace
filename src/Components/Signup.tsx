@@ -7,7 +7,6 @@ function Loginpage() {
         <h2 className="text-left text-2xl font-bold leading-9 tracking-tight text-[#FFF5E9]">
           Connect.Learn.Thrive
         </h2>
-
         <div className="flex justify-center my-4">
           <img src={Loginimage} alt="Image" className="w-32 h-32 object-cover" />
         </div>
