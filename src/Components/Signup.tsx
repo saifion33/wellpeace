@@ -1,7 +1,40 @@
 import wellnessImage from "../assets/images/starting page.svg";
-import { FcGoogle } from "react-icons/fc";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import { SiFacebook, SiLinkedin } from "react-icons/si";
+import { FcGoogle } from "react-icons/fc";
+import * as yup from "yup";
+
+const initialValues: SignupForm = {
+  name: "",
+  email: "",
+  password: "",
+};
+
 function Signuppage() {
+  const handleSubmit = (values: SignupForm) => {
+    alert(`HI ${values.name}, we are implimenting signup feature`)
+  };
+
+  // regular expression to validate.
+  // password length must be 8 digits, must include 1 number and 1 special characters.
+  const passRegexp = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+
+  // schema for form validation
+  const ValidationSchema = yup.object({
+    name: yup
+      .string()
+      .min(3, "Name should be minimum 3 characters").matches(/^[a-zA-Z ]+$/gi,'Numbers and special characters not allowed.')
+      .required("Name is required"),
+    email: yup.string().email("invalid email").required("email is required"),
+    password: yup
+      .string()
+      .matches(
+        passRegexp,
+        "password must include atleast 1 number and 1 special character."
+      )
+      .required("password is required"),
+  });
+
   return (
     <div className="bg-[#ab97d5] relative min-h-screen flex items-center justify-center flex-wrap pt-6 pb-14">
       <div className="lg:w-1/2">
@@ -25,14 +58,15 @@ function Signuppage() {
           Your wellbeing,our priority
         </h2>
       </div>
-      <div className="lg:w-1/2">
-        <form
-          className="space-y-6 mt-10 mx-auto bg-stone-50 bg-opacity-20 backdrop-blur-md px-6 py-6 lg:py-12 lg:px-12 rounded-md max-w-[400px] "
-          action="#"
-          method="POST"
-        >
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={ValidationSchema}
+        className="lg:w-1/2"
+      >
+        <Form className="space-y-5 mt-10 mx-auto bg-stone-50 bg-opacity-20 backdrop-blur-md px-6 py-6 lg:py-12 lg:px-12 rounded-md lg:w-[400px] max-w-[400px] ">
           <div>
-            <input
+            <Field
               placeholder="Full Name"
               id="name"
               name="name"
@@ -40,21 +74,35 @@ function Signuppage() {
               required
               className="block w-full focus:outline-none  py-3 text-[#FFF5E9] border-b-2 border-stone-50 bg-transparent  placeholder:text-[#FFF5E9]"
             />
+            <div className="h-4 pt-1">
+              <ErrorMessage
+                className="text-xs text-red-500"
+                name="name"
+                component={"div"}
+              />
+            </div>
           </div>
 
           <div>
-            <input
-              placeholder="Email or Phone Number"
-              id="contact"
-              name="contact"
+            <Field
+              placeholder="Email"
+              id="email"
+              name="email"
               type="email"
               required
               className="block w-full focus:outline-none  py-3 text-[#FFF5E9] border-b-2 border-stone-50 bg-transparent  placeholder:text-[#FFF5E9]"
             />
+            <div className="h-4 pt-1">
+              <ErrorMessage
+                className="text-xs text-red-500"
+                name="email"
+                component={"div"}
+              />
+            </div>
           </div>
 
           <div>
-            <input
+            <Field
               placeholder="Password"
               id="password"
               name="password"
@@ -62,6 +110,13 @@ function Signuppage() {
               required
               className="block w-full focus:outline-none  py-3 text-[#FFF5E9] border-b-2 border-stone-50 bg-transparent  placeholder:text-[#FFF5E9]"
             />
+            <div className="h-4 pt-1">
+              <ErrorMessage
+                className="text-xs text-red-500"
+                name="password"
+                component={"div"}
+              />
+            </div>
           </div>
 
           <label className="flex items-center space-x-2">
@@ -91,7 +146,6 @@ function Signuppage() {
               <div className="p-1 rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center">
                 <SiLinkedin className="text-blue-800 text-2xl cursor-pointer" />
               </div>
-             
             </div>
           </div>
 
@@ -104,8 +158,8 @@ function Signuppage() {
               Log In
             </a>
           </div>
-        </form>
-      </div>
+        </Form>
+      </Formik>
       <button className="absolute bottom-2 right-4 text-stone-50 text-lg">
         Skip
       </button>
