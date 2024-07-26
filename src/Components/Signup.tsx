@@ -1,6 +1,6 @@
 import wellnessImage from "../assets/images/starting page.svg";
 import { FcGoogle } from "react-icons/fc";
-import { SiFacebook,SiLinkedin } from "react-icons/si";
+import { SiFacebook, SiLinkedin } from "react-icons/si";
 function Signuppage() {
   return (
     <div className="bg-[#ab97d5] relative min-h-screen flex items-center justify-center flex-wrap pt-6 pb-14">
@@ -9,7 +9,7 @@ function Signuppage() {
           <h1 className="text-[60px] font-montserrat drop-shadow-md font-bold text-[#FFF5E9] lg:text[80px] lg:tracking-wide">
             wellpeace
           </h1>
-          <h2 className="text-left font-montserrat drop-shadow-md pl-2 tracking-tight text-[17px] font-bold text-[#FFF5E9]">
+          <h2 className="text-left font-montserrat drop-shadow-md -mt-2 pl-2 tracking-tight text-[17px] font-bold text-[#FFF5E9]">
             Connect.Learn.Thrive
           </h2>
         </div>
@@ -38,7 +38,7 @@ function Signuppage() {
               name="name"
               type="text"
               required
-              className="block w-full  py-3 text-[#FFF5E9] border-b-2 border-stone-50 bg-transparent  placeholder:text-[#FFF5E9]"
+              className="block w-full focus:outline-none  py-3 text-[#FFF5E9] border-b-2 border-stone-50 bg-transparent  placeholder:text-[#FFF5E9]"
             />
           </div>
 
@@ -49,7 +49,7 @@ function Signuppage() {
               name="contact"
               type="email"
               required
-              className="block w-full  py-3 text-[#FFF5E9] border-b-2 border-stone-50 bg-transparent  placeholder:text-[#FFF5E9]"
+              className="block w-full focus:outline-none  py-3 text-[#FFF5E9] border-b-2 border-stone-50 bg-transparent  placeholder:text-[#FFF5E9]"
             />
           </div>
 
@@ -60,7 +60,7 @@ function Signuppage() {
               name="password"
               type="password"
               required
-              className="block w-full  py-3 text-[#FFF5E9] border-b-2 border-stone-50 bg-transparent  placeholder:text-[#FFF5E9]"
+              className="block w-full focus:outline-none  py-3 text-[#FFF5E9] border-b-2 border-stone-50 bg-transparent  placeholder:text-[#FFF5E9]"
             />
           </div>
 
@@ -81,10 +81,16 @@ function Signuppage() {
           </div>
           <div>
             <p className="text-center text-stone-50">or continue with</p>
-            <div className="text-3xl mt-3 bg-stone-50 bg-opacity-30 p-2 rounded flex justify-evenly">
-              <FcGoogle/>
-              <SiFacebook className="text-blue-500"/>
-              <SiLinkedin className="text-blue-800"/>
+            <div className="text-3xl mt-3 p-2 rounded flex justify-evenly">
+              <div className="p-1 rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center">
+                <FcGoogle className="cursor-pointer" />
+              </div>
+              <div className="p-1 rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center">
+                <SiFacebook className="text-blue-600 cursor-pointer" />
+              </div>
+              <div className="p-1 rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center">
+                <SiLinkedin className="text-blue-800 text-2xl cursor-pointer" />
+              </div>
             </div>
           </div>
 
@@ -99,7 +105,9 @@ function Signuppage() {
           </div>
         </form>
       </div>
-      <button className="absolute bottom-2 right-4 text-stone-50 text-lg">Skip</button>
+      <button className="absolute bottom-2 right-4 text-stone-50 text-lg">
+        Skip
+      </button>
     </div>
   );
 }
