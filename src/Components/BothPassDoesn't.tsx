@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaChevronLeft } from "react-icons/fa";
 library.add(faLock, faEye, faEyeSlash);
 
-function EnterPassword() {
+function BothPass() {
     const [showPassword, setShowPassword] = useState(false);
   
     const togglePasswordVisibility = () => {
@@ -16,8 +16,6 @@ function EnterPassword() {
   
     return (
       <div className="bg-[#AB97D5] flex items-center justify-center" style={{ minHeight: '116vh' }}>
-        <div className='relative top-12 left-5'>
-        </div>
         <div className="w-full max-w-md p-4">
             <div className='relative p-4'>
                 <h2 className="text-left text-2xl font-bold leading-9 tracking-tight text-[#FFF5E9]"
@@ -67,6 +65,10 @@ function EnterPassword() {
             </div>
           </form>
           <br />
+          <h2 className="text-[#FFF5E9]">
+            Both passwords don't match
+          </h2>
+          <br />
           <div>
             <button
               type="submit"
@@ -80,5 +82,5 @@ function EnterPassword() {
     );
   }
   
-  export default EnterPassword;
+  export default BothPass;
   

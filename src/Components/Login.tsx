@@ -1,3 +1,4 @@
+import Logingif from "../assets/Gifs/Login.gif";
 
 function Loginpage() {
   return (
@@ -9,6 +10,9 @@ function Loginpage() {
         <h2 className="text-left text-1xl font-bold leading-9 tracking-tight text-[#FFF5E9]">
           Connect.Learn.Thrive
         </h2>
+        <div className="flex justify-center my-8">
+          <img src={Logingif} alt="Image" className="h-52 object-cover" />
+        </div>
         <form className="space-y-6 mt-10" action="#" method="POST">
           <div>
             <input

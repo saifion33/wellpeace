@@ -2,7 +2,9 @@
 // import VerificationCode from "./Components/Verificationcodepage.js";
 // import EnterPassword from "./Components/EnterNewPasspage";
 // import Loginpage from "./Components/Login"
-import Signuppage from "./Components/Signup";
+// import Signuppage from "./Components/Signup";
+// import ForgotPassword from "./Components/ForgotPassword";
+// import BothPass from "./Components/BothPassDoesn't";
 function App() {
   return (
     <div className="font-ubuntu">
@@ -10,7 +12,9 @@ function App() {
       {/* <VerificationCode /> */}
       {/* <EnterPassword /> */}
       {/* <Loginpage /> */}
-      <Signuppage />
+      {/* <Signuppage /> */}
+      {/* <ForgotPassword /> */}
+      {/* <BothPass /> */}
 
     </div>
   );
