@@ -135,15 +135,14 @@ function Loginpage() {
               </div>
             </div>
           </div>
-          <p className="text-stone-50 text-center text-sm mt-3">
-            Don't have an account?
-            <span
-              onClick={() => navigate("/signup")}
-              className="underline font-semibold pl-2 cursor-pointer"
+          <div className="mt-10 text-center lg:text-lg text-[#FFF5E9]">
+            Have an account?
+            <button onClick={()=>navigate('/signup')}
+              className="ml-2 font-semibold leading-6 hover:text-[] text-stone-50 underline"
             >
               Signup
-            </span>
-          </p>
+            </button>
+          </div>
         </Form>
       </Formik>
 
