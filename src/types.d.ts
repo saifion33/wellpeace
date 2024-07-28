@@ -1,4 +1,4 @@
-type SignupForm={
+type SignupLoginForm={
     email:string
     password:string
 }

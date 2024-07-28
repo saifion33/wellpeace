@@ -3,15 +3,20 @@ import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
 import { SiFacebook, SiLinkedin } from "react-icons/si";
 import { FcGoogle } from "react-icons/fc";
 import * as yup from "yup";
+import { useState } from "react";
+import { IoEye, IoEyeOff } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 
 
 function Signuppage() {
-  const initialValues: SignupForm = {
+  const navigate=useNavigate()
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const initialValues: SignupLoginForm = {
     email: "",
     password: "",
   };
-  const handleSubmit = (values: SignupForm, {resetForm}:FormikHelpers<SignupForm>) => {
+  const handleSubmit = (values: SignupLoginForm, {resetForm}:FormikHelpers<SignupLoginForm>) => {
     alert(
       `HI ${values.email.split("@")[0]}, we are implimenting signup feature`
     );
@@ -24,16 +29,17 @@ function Signuppage() {
 
   // regular expression to validate.
   // password length must be 8 digits, must include 1 number and 1 special characters.
-  const passRegexp = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+  const passRegexp = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
 
   // schema for form validation
   const ValidationSchema = yup.object({
     email: yup.string().email("invalid email").required("email is required"),
     password: yup
       .string()
+      .min(8,'password length must be atleast 8 characters')
       .matches(
         passRegexp,
-        "password must include atleast 1 number and 1 special character."
+        "password must include atleast 1 number and 1 capital letter."
       )
       .required("password is required"),
   });
@@ -88,22 +94,30 @@ function Signuppage() {
           </div>
 
           <div>
-            <Field
-              placeholder="Password"
-              id="password"
-              name="password"
-              type="password"
-              required
-              className="block w-full focus:outline-none  py-3 text-[#FFF5E9] border-b-2 border-stone-50 bg-transparent  placeholder:text-[#FFF5E9]"
-            />
-            <div className="h-4 pt-1">
-              <ErrorMessage
-                className="text-xs text-red-500"
-                name="password"
-                component={"div"}
-              />
+              <div className="flex items-center text-[#FFF5E9] border-b-2 border-stone-50">
+                <Field
+                  placeholder="Password"
+                  id="password"
+                  name="password"
+                  type={isPasswordVisible ? "text" : "password"}
+                  required
+                  className="w-full focus:outline-none  py-2  bg-transparent  placeholder:text-[#FFF5E9]"
+                />
+                <div
+                  onClick={() => setIsPasswordVisible((p) => !p)}
+                  className="text-xl pr-2"
+                >
+                  {!isPasswordVisible ? <IoEye /> : <IoEyeOff />}
+                </div>
+              </div>
+              <div className="h-8 pt-2">
+                <ErrorMessage
+                  className="text-xs text-red-500 "
+                  name="password"
+                  component={"div"}
+                />
+              </div>
             </div>
-          </div>
 
           <label className="flex items-center space-x-2 text-xs lg:text-base">
             <input type="checkbox" className="form-checkbox text-blue-600" />
@@ -148,16 +162,15 @@ function Signuppage() {
 
           <div className="mt-10 text-center lg:text-lg text-[#FFF5E9]">
             Have an account?
-            <a
-              href="#"
+            <button onClick={()=>navigate('/login')}
               className="ml-2 font-semibold leading-6 hover:text-[] text-stone-50 underline"
             >
               Log In
-            </a>
+            </button>
           </div>
         </Form>
       </Formik>
-      <button className="absolute bottom-2 right-4 text-stone-50 tracking-wide font-semibold text-lg ">
+      <button onClick={()=>navigate('/')} className="absolute bottom-0 right-4 text-stone-50 tracking-wide ">
         Skip
       </button>
     </div>

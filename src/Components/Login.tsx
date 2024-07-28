@@ -1,68 +1,157 @@
+import { useState } from "react";
 import Logingif from "../assets/Gifs/Login.gif";
-
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import { IoEye, IoEyeOff } from "react-icons/io5";
+import * as yup from "yup";
+import { FcGoogle } from "react-icons/fc";
+import { SiFacebook, SiLinkedin } from "react-icons/si";
+import { useNavigate } from "react-router-dom";
+const initialValues: SignupLoginForm = {
+  email: "",
+  password: "",
+};
 function Loginpage() {
+  const navigate = useNavigate();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const ValidationSchema = yup.object({
+    email: yup.string().email("invalid email").required("email is required"),
+    password: yup.string().required("password is required"),
+  });
+  const signupWith = () => {
+    alert("We are working on These features");
+  };
+
+  const handleSubmit = (
+    values: SignupLoginForm,
+    { resetForm }: FormikHelpers<SignupLoginForm>
+  ) => {
+    alert(
+      `HI ${values.email.split("@")[0]}, we are implimenting signup feature`
+    );
+    resetForm();
+  };
   return (
-    <div className="bg-[#AB97D5] min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-md p-4">
-        <h2 className="text-left text-6xl font-bold leading-40 tracking-tight text-[#FFFDD0]">
-         wellpeace
-        </h2>
-        <h2 className="text-left text-1xl font-bold leading-9 tracking-tight text-[#FFF5E9]">
-          Connect.Learn.Thrive
-        </h2>
-        <div className="flex justify-center my-8">
-          <img src={Logingif} alt="Image" className="h-52 object-cover" />
+    <section className="bg-[#ab97d5] relative min-h-screen flex items-center justify-center flex-wrap pt-6 pb-14">
+      <div className="lg:w-1/2">
+        <div className="mx-auto w-fit max-w-md lg:mb-24 hidden lg:block">
+          <h1 className="text-[60px] font-montserrat drop-shadow-md font-bold text-[#FFF5E9] lg:text[80px] lg:tracking-wide">
+            wellpeace
+          </h1>
+          <h2 className="text-left font-montserrat drop-shadow-md -mt-2 pl-2 tracking-tight text-[17px] font-bold text-[#FFF5E9]">
+            Connect.Learn.Thrive
+          </h2>
         </div>
-        <form className="space-y-6 mt-10" action="#" method="POST">
+        <div className="flex justify-center mt-6 lg:mt-16 mb-2 lg:mb-4">
+          <img
+            src={Logingif}
+            alt="login illustration"
+            className="w-56 lg:w-80"
+          />
+        </div>
+      </div>
+
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={ValidationSchema}
+      >
+        <Form className="space-y-2 lg:space-y-5 mt-6 lg:mt-10 mx-auto bg-stone-50 bg-opacity-20 backdrop-blur-md px-6 py-6 lg:py-12 lg:px-12 rounded-md lg:w-[400px] max-w-[400px] ">
           <div>
-            <input
-              placeholder="Phone Number, Username or Email "
-              id="name"
-              name="name"
-              type="text"
+            <Field
+              placeholder="Email"
+              id="email"
+              name="email"
+              type="email"
               required
-              className="block w-full rounded-full border-0 px-5 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
+              className="block w-full focus:outline-none  py-2 text-[#FFF5E9] border-b-2 border-stone-50 bg-transparent  placeholder:text-[#FFF5E9]"
             />
+            <div className="h-4 pt-2">
+              <ErrorMessage
+                className="text-xs text-red-500"
+                name="email"
+                component={"div"}
+              />
+            </div>
           </div>
 
           <div>
-            <input
-              placeholder="Password"
-              id="username"
-              name="username"
-              type="text"
-              required
-              className="block w-full rounded-full border-0 px-5 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
-            />
+            <div className="flex items-center text-[#FFF5E9] border-b-2 border-stone-50">
+              <Field
+                placeholder="Password"
+                id="password"
+                name="password"
+                type={isPasswordVisible ? "text" : "password"}
+                required
+                className="w-full focus:outline-none  py-2  bg-transparent  placeholder:text-[#FFF5E9]"
+              />
+              <div
+                onClick={() => setIsPasswordVisible((p) => !p)}
+                className="text-xl pr-2"
+              >
+                {!isPasswordVisible ? <IoEye /> : <IoEyeOff />}
+              </div>
+            </div>
+            <div className="h-4 pt-2">
+              <ErrorMessage
+                className="text-xs text-red-500 "
+                name="password"
+                component={"div"}
+              />
+            </div>
           </div>
           <div>
             <button
               type="submit"
-              className="flex w-full justify-center rounded-full bg-[#82A1FD] px-3 py-1 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="flex w-full mt-7 lg:mt-0 text-sm lg:text-base justify-center rounded-full bg-[#4274c2] hover:bg-[#477cd0] px-3 py-1 leading-6 text-[#FFF5E9] "
             >
               Login
             </button>
           </div>
-          <div className="mt-10 text-center text-lg text-[#FFF5E9]">
+          <p className="text-sm text-center my-4 text-stone-50">
             Forgot Password?
+          </p>
+          <div>
+            <p className="text-center text-stone-50 text-sm lg:text-base mt-5 lg:mt-0 ">
+              or continue with
+            </p>
+            <div className="lg:mt-3 p-2 rounded flex justify-evenly">
+              <div
+                onClick={signupWith}
+                className=" rounded-full bg-stone-50 bg-opacity-20 h-10 w-10 flex justify-center items-center"
+              >
+                <FcGoogle className="cursor-pointer text-[42px]" />
+              </div>
+              <div
+                onClick={signupWith}
+                className="p-2 rounded-full bg-stone-50 bg-opacity-20 h-10 w-10 flex justify-center items-center"
+              >
+                <SiFacebook className="text-blue-600 cursor-pointer text-4xl" />
+              </div>
+              <div
+                onClick={signupWith}
+                className="p-1 rounded-full bg-stone-50 bg-opacity-20 h-10 w-10 flex justify-center items-center"
+              >
+                <SiLinkedin className="text-blue-800 text-2xl cursor-pointer" />
+              </div>
+            </div>
           </div>
-          <div className="mt-10 text-center text-lg text-[#FFF5E9]">
+          <p className="text-stone-50 text-center text-sm mt-3">
             Don't have an account?
-            <a href="#" className="ml-2 font-semibold leading-6 hover:text-indigo-500 text-[#FFF5E9] underline">
-              SignUp
-            </a>
-          </div>
-          </form>
-          <br />
-          <div className="ml-6">
-          <span className="text-[#FFF5E9] text-1">Your information is 100% confidential and never shared with anyone</span>
-          </div>
-          <div className="relative" style={{position:"relative", left:'17.5rem'}}>
-            <h1 className="text-white">Skip</h1>
-          </div>
-        </div>
-        </div>
-  )
+            <span
+              onClick={() => navigate("/signup")}
+              className="underline font-semibold pl-2 cursor-pointer"
+            >
+              Signup
+            </span>
+          </p>
+        </Form>
+      </Formik>
+
+      <button onClick={()=>navigate('/')} className="absolute bottom-0 right-4 text-stone-50 tracking-wide ">
+        Skip
+      </button>
+    </section>
+  );
 }
 
-export default Loginpage
+export default Loginpage;
