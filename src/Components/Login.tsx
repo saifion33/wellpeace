@@ -31,7 +31,7 @@ function Loginpage() {
     resetForm();
   };
   return (
-    <section className="bg-[#ab97d5] relative min-h-screen flex items-center justify-center flex-wrap pt-6 pb-14">
+    <section className="bg-custom-background-gradient relative min-h-screen flex items-center justify-center flex-wrap pt-6 pb-14">
       <div className="lg:w-1/2">
         <div className="mx-auto w-fit max-w-md lg:mb-24 hidden lg:block">
           <h1 className="text-[60px] font-montserrat drop-shadow-md font-bold text-[#FFF5E9] lg:text[80px] lg:tracking-wide">
@@ -55,7 +55,7 @@ function Loginpage() {
         onSubmit={handleSubmit}
         validationSchema={ValidationSchema}
       >
-        <Form className="space-y-2 lg:space-y-5 mt-6 lg:mt-10 mx-auto bg-stone-50 bg-opacity-20 backdrop-blur-md px-6 py-6 lg:py-12 lg:px-12 rounded-md lg:w-[400px] max-w-[400px] ">
+        <Form className="space-y-2 lg:space-y-5 mt-6 lg:mt-10 mx-auto bg-stone-50 bg-opacity-20 border-[1px] border-stone-50 backdrop-blur-md px-6 py-6 lg:py-12 lg:px-12 rounded-md lg:w-[400px] max-w-[400px] ">
           <div>
             <Field
               placeholder="Email"

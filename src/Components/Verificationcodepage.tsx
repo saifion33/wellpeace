@@ -1,23 +1,22 @@
 import VerificationImg from "../assets/images/Verificationimg.svg";
-import { FaChevronLeft } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
+import BackButtonHeadbar from "./common/BackButtonHeadbar";
 
 function VerificationCode() {
   const inputRef = useRef<HTMLInputElement[]>([]);
   const [OTP, setOTP] = useState<string[]>(new Array(4).fill(""));
   const [activeInput, setActiveInput] = useState(0);
+
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
     console.log("event is fired");
     const value = e.target.value;
-    // console.log(value, index);
     const newOTP = [...OTP];
     newOTP[index] = value;
     setOTP(newOTP);
-    // console.log(inputRef.current[index].value)
     if (value && index < 3) {
       setActiveInput(index + 1);
     }
@@ -26,16 +25,13 @@ function VerificationCode() {
       setActiveInput(index - 1);
     }
   };
-
   useEffect(() => {
     inputRef.current[activeInput].focus();
   }, [activeInput]);
 
   return (
-    <section className="bg-[#AB97D5] min-h-screen">
-      <header className="w-full bg-stone-50  p-4 bg-opacity-30 backdrop-blur-md">
-        <FaChevronLeft className="text-stone-50 cursor-pointer" />
-      </header>
+    <section className="bg-custom-background-gradient min-h-screen">
+      <BackButtonHeadbar />
       <div className="flex justify-center items-center h-full mt-10 ">
         <div className="w-full max-w-md p-4 ">
           <br />
@@ -71,7 +67,6 @@ function VerificationCode() {
                     onChange={(e) => {
                       handleOnChange(e, index);
                     }}
-                    
                     className=" mr-4 w-12 h-12 text-stone-50 text-center bg-stone-50 bg-opacity-30 backdrop-blur-md rounded-md focus:outline-none text-3xl"
                   />
                 );

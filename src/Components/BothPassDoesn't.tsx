@@ -1,12 +1,7 @@
 
 import { useState } from 'react';
 import EnterNewPass from "../assets/images/EnterNewPass.svg";
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaChevronLeft } from "react-icons/fa";
-library.add(faLock, faEye, faEyeSlash);
-
 function BothPass() {
     const [showPassword, setShowPassword] = useState(false);
   
@@ -33,7 +28,6 @@ function BothPass() {
           <form className="space-y-6 mt-10" action="#" method="POST">
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <FontAwesomeIcon icon={faLock} className="text-gray-500" />
               </span>
               <input
                 placeholder="Enter New Password"
@@ -44,12 +38,10 @@ function BothPass() {
                 className="block w-full rounded-full border-0 pl-10 pr-10 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
               />
               <span className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={togglePasswordVisibility}>
-                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="text-gray-500" />
               </span>
             </div>
             <div className="relative">
               <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <FontAwesomeIcon icon={faLock} className="text-gray-500" />
               </span>
               <input
                 placeholder="Confirm Password"
@@ -60,7 +52,6 @@ function BothPass() {
                 className="block w-full rounded-full border-0 pl-10 pr-10 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
               />
               <span className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={togglePasswordVisibility}>
-                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="text-gray-500" />
               </span>
             </div>
           </form>

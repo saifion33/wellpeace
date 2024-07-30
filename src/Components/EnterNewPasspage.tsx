@@ -1,84 +1,157 @@
-
-import { useState } from 'react';
+import { useState } from "react";
+import { FaLock } from "react-icons/fa";
+import { IoEye, IoEyeOff } from "react-icons/io5";
+import BackButtonHeadbar from "./common/BackButtonHeadbar";
 import EnterNewPass from "../assets/images/EnterNewPass.svg";
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FaChevronLeft } from "react-icons/fa";
-library.add(faLock, faEye, faEyeSlash);
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import * as yup from "yup";
+
+type Values = {
+  password1: string;
+  password2: string;
+};
+
+const initialValues: Values = {
+  password1: "",
+  password2: "",
+};
 
 function EnterPassword() {
-    const [showPassword, setShowPassword] = useState(false);
-  
-    const togglePasswordVisibility = () => {
-      setShowPassword(!showPassword);
-    };
-  
-    return (
-      <div className="bg-[#AB97D5] flex items-center justify-center" style={{ minHeight: '116vh' }}>
-        <div className='relative top-12 left-5'>
-        </div>
-        <div className="w-full max-w-md p-4">
-            <div className='relative p-4'>
-                <h2 className="text-left text-2xl font-bold leading-9 tracking-tight text-[#FFF5E9]"
-                style={{position:'absolute', top:"-1.5rem", left:"3rem" }}>
-                    Enter New Password
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+
+  const togglePassword1Visibility = () => {
+    setShowPassword1((p) => !p);
+  };
+
+  const togglePassword2Visibility = () => {
+    setShowPassword2((p) => !p);
+  };
+
+  const handleSubmit = (
+    values: Values,
+    { resetForm }: FormikHelpers<Values>
+  ) => {
+    console.log(values);
+    resetForm();
+    alert('Password reset successfully.')
+  };
+
+  // regular expression to validate.
+  // password length must be 8 digits, must include 1 number and 1 special characters.
+  const passRegexp = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
+
+  // schema for form validation
+  const ValidationSchema = yup.object({
+    password1: yup
+      .string()
+      .min(8, "password length should be 8 characters.")
+      .matches(
+        passRegexp,
+        "password must include 1 number and 1 capital letter"
+      )
+      .required("password is required."),
+    password2: yup
+      .string()
+      .min(8, "password length should be 8 characters.")
+      .matches(
+        passRegexp,
+        "password must include 1 number and 1 capital letter"
+      )
+      .oneOf([yup.ref("password1")], "password not match.")
+      .required("password is required."),
+  });
+
+  return (
+    <div className="bg-custom-background-gradient flex justify-center min-h-screen ">
+      <div className="w-full flex flex-col items-center">
+        <BackButtonHeadbar />
+        <div className="flex h-full w-full justify-center items-center">
+          <div className="w-[90%] max-w-[800px] p-4 lg:flex  bg-stone-50 bg-opacity-20 border-[1px] border-stone-50 rounded-md">
+            <div className="lg:w-1/2">
+              <div className="text-center p-4">
+                <h2 className="text-2xl font-bold leading-9 tracking-tight drop-shadow text-[#FFF5E9]">
+                  Enter New Password
                 </h2>
-                <h2 className="text-[#FFF5E9]" style={{position:'absolute', top:"0.5rem",left:"3rem" }}>
-                    Please enter your new password
+                <h2 className="text-[#FFF5E9] ">
+                  Please enter your new password
                 </h2>
-          </div>
-          <FaChevronLeft className="text-white absolute top-6" />
-          <div className="flex justify-center my-8">
-          <img src={EnterNewPass} alt="Image" className="w-44 h-52 object-cover" />
-        </div>
-          <form className="space-y-6 mt-10" action="#" method="POST">
-            <div className="relative">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <FontAwesomeIcon icon={faLock} className="text-gray-500" />
-              </span>
-              <input
-                placeholder="Enter New Password"
-                id="new-password"
-                name="new-password"
-                type={showPassword ? 'text' : 'password'}
-                required
-                className="block w-full rounded-full border-0 pl-10 pr-10 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
-              />
-              <span className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={togglePasswordVisibility}>
-                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="text-gray-500" />
-              </span>
+              </div>
+              <div className="flex justify-center my-8">
+                <img
+                  src={EnterNewPass}
+                  alt="Image"
+                  className="w-36 lg:w-56 object-cover"
+                />
+              </div>
             </div>
-            <div className="relative">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <FontAwesomeIcon icon={faLock} className="text-gray-500" />
-              </span>
-              <input
-                placeholder="Confirm Password"
-                id="confirm-password"
-                name="confirm-password"
-                type={showPassword ? 'text' : 'password'}
-                required
-                className="block w-full rounded-full border-0 pl-10 pr-10 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
-              />
-              <span className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onClick={togglePasswordVisibility}>
-                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="text-gray-500" />
-              </span>
-            </div>
-          </form>
-          <br />
-          <div>
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-full bg-[#82A1FD] px-3 py-1 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            <Formik
+              onSubmit={handleSubmit}
+              initialValues={initialValues}
+              validationSchema={ValidationSchema}
             >
-              Continue
-            </button>
+              <Form className=" mt-10  p-4   backdrop-blur-md">
+                <div className="space-y-6 mt-5">
+                  <div>
+                    <div className="flex items-center text-stone-50 lg:text-lg border-b-2 border-stone-50 gap-3">
+                      <FaLock />
+                      <Field
+                        id="password1"
+                        name="password1"
+                        placeholder="Enter new password"
+                        className="w-full focus:outline-none  py-2  bg-transparent placeholder:text-stone-50 "
+                        type={showPassword1 ? "text" : "password"}
+                      />
+                      <div className="cursor-pointer" onClick={togglePassword1Visibility}>
+                        {!showPassword1 ? <IoEye /> : <IoEyeOff />}
+                      </div>
+                    </div>
+                    <div className="h-4 mt-2">
+                      <ErrorMessage
+                        name="password1"
+                        component={"div"}
+                        className="text-xs text-red-500 "
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-center text-stone-50 lg:text-lg border-b-2 border-stone-50 gap-3">
+                      <FaLock />
+                      <Field
+                        name="password2"
+                        id="password2"
+                        placeholder="Enter new password again"
+                        className="w-full focus:outline-none  py-2  bg-transparent placeholder:text-stone-50 "
+                        type={showPassword2 ? "text" : "password"}
+                      />
+                      <div className="cursor-pointer" onClick={togglePassword2Visibility}>
+                        {!showPassword2 ? <IoEye /> : <IoEyeOff />}
+                      </div>
+                    </div>
+                    <div className="h-4 mt-2">
+                      <ErrorMessage
+                        name="password2"
+                        component={"div"}
+                        className="text-xs text-red-500 "
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-12">
+                  <button
+                    type="submit"
+                    className="flex w-full justify-center rounded-full bg-[#82A1FD] px-3 py-1 text-sm leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Continue
+                  </button>
+                </div>
+              </Form>
+            </Formik>
           </div>
         </div>
       </div>
-    );
-  }
-  
-  export default EnterPassword;
-  
+    </div>
+  );
+}
+
+export default EnterPassword;
