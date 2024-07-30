@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Signuppage from "./Components/Signup";
 import ForgotPassword from "./Components/ForgotPassword";
 import Home from "./Components/Home";
-import BothPass from "./Components/BothPassDoesn't";
 function App() {
   return (
     <Router>
@@ -17,7 +16,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signuppage />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/both-pass" element={<BothPass />} />
         </Routes>
       </div>
     </Router>

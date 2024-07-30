@@ -53,12 +53,7 @@ function EnterPassword() {
       .required("password is required."),
     password2: yup
       .string()
-      .min(8, "password length should be 8 characters.")
-      .matches(
-        passRegexp,
-        "password must include 1 number and 1 capital letter"
-      )
-      .oneOf([yup.ref("password1")], "password not match.")
+      .oneOf([yup.ref("password1")], "both password doesn't match.")
       .required("password is required."),
   });
 
@@ -81,7 +76,7 @@ function EnterPassword() {
                 <img
                   src={EnterNewPass}
                   alt="Image"
-                  className="w-36 lg:w-56 object-cover"
+                  className="w-32 lg:w-56 object-cover"
                 />
               </div>
             </div>
@@ -90,7 +85,7 @@ function EnterPassword() {
               initialValues={initialValues}
               validationSchema={ValidationSchema}
             >
-              <Form className=" mt-10  p-4   backdrop-blur-md">
+              <Form className=" p-4">
                 <div className="space-y-6 mt-5">
                   <div>
                     <div className="flex items-center text-stone-50 lg:text-lg border-b-2 border-stone-50 gap-3">
