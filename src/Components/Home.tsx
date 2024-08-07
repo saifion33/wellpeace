@@ -1,41 +1,162 @@
-import { CiSearch } from "react-icons/ci";
+import { FaSearch } from "react-icons/fa";
+import kimg from "../assets/icons/4.svg";
+
+import { FaAngleRight } from "react-icons/fa6";
+import { GoDotFill } from "react-icons/go";
+import chart from "../assets/images/chat.svg";
+import events from "../assets/images/event.svg";
+import { FaUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import BottomNavigation from "./common/BottomNavigation";
+import ProductContainer from "./products/ProductContainer";
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
+import { useAppDispatch, useAppSelector } from "../redux-hooks";
+import { logout} from "../redux/slices/auth";
+import { toast } from "react-toastify";
+
 function Home() {
-    return (
-      <div
-        className="relative flex items-start justify-center"
-        style={{
-          backgroundImage: 'linear-gradient(180deg, #b1baff, #eea9e8)',
-          minHeight: '122vh',
-        }}
-      >
-        <div className="absolute top-1 w-full max-w-md p-4">
-          <h2 className="text-left font-montserrat drop-shadow-md pl-2 tracking-tight text-[17px] font-bold text-[#FFF5E9]">
-            Welcome!
-          </h2>
-          <h2 className="text-left font-montserrat drop-shadow-md pl-2 tracking-tight text-[12px] font-bold text-[#000000]" style={{ marginTop: '-0.3rem' }}>
-            Connect.Learn.Thrive
-          </h2>
-          <CiSearch className="text-black absolute top-18.6 right-8.2" style={{
-  fontSize: '1.2rem',
-  fontWeight: 'bold',
-  position: 'absolute',
-  top: '4.75rem',
-  right: '2.05rem',
-}}/>
-          <form className="mt-4 space-y-6" action="#" method="POST">
-            <input
-              placeholder="Explore"
-              id="new-password"
-              name="new-password"
-              type="text"
-              required
-              className="block w-full rounded-lg border-0 pl-3 pr-12 py-1"
-            />
-          </form>
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch(logout());
+        toast.success("Logout successfully.", { autoClose: 1500 });
+      })
+      .catch((err) => {
+        toast.warning(err.message, { autoClose: 1500 });
+      });
+  };
+
+  return (
+    <div className="bg-custom-background-gradient flex justify-center">
+      <div className=" w-full max-w-md p-4">
+        <header className="flex justify-between items-center mb-3">
+          <div>
+            <h2 className="text-left drop-shadow-md text-[17px] font-poppins text-[#FFF5E9]">
+              Welcome!
+            </h2>
+            <h2 className="text-left font-poppins font-bold -mt-1 text-[12px] text-[#000000]">
+              Connect.Learn.Thrive
+            </h2>
+          </div>
+          <div
+            onClick={() => {
+              user ? handleLogout() : navigate("/signup");
+            }}
+            className="bg-stone-50 cursor-pointer bg-opacity-40 backdrop-blur-sm w-9 h-9 flex justify-center items-center text-slate-700  px-1 pt-1 pb-[2px] text-3xl rounded-sm"
+          >
+            {user?.imageUrl ? (
+              <img src={user.imageUrl} alt={user.name} />
+            ) : user?.name ? (
+              user.name.slice(0, 1).toUpperCase()
+            ) : (
+              <FaUser className="text-stone-50" />
+            )}
+          </div>
+        </header>
+        <div className="w-full flex justify-between items-center rounded-md p-1 bg-stone-50 px-2">
+          <input
+            placeholder="Explore"
+            id="search-input"
+            name="search-input"
+            type="text"
+            required
+            className=" w-full bg-stone-50 text-[#8b8b8b] placeholder:text-[#8b8b8b] focus:outline-none"
+          />
+          <FaSearch className="text-xl text-[#8b8b8b]" />
         </div>
+
+        <div className="w-full">
+          <div className="relative w-full">
+            <div className="w-[88%] p-2 h-32 bg-home-page-header-gradient mt-7 flex items-center rounded-md">
+              <p className="font-poppins text-white text-sm w-2/3 ">
+                Peaceful minds create a healthy world
+              </p>
+              <img
+                src={kimg}
+                alt="image icon"
+                className="w-32 drop-shadow absolute right-0 top-0"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center w-full mt-3 ">
+            <GoDotFill className="text-white size-2" />
+            <GoDotFill className="text-white size-2" />
+            <GoDotFill className="text-white size-2" />
+          </div>
+        </div>
+        <div className="mt-5 flex justify-between">
+          <p className="font-poppins text-stone-50 text-xs">
+            Moments of Happiness, Just for You
+          </p>
+          <FaAngleRight className="text-white size-3" />
+        </div>
+        <div className="mt-5 overflow-hidden rounded-[33px]">
+          <video width="600" controls className="">
+            <source
+              src={
+                "https://res.cloudinary.com/dwhwlxysm/video/upload/f_auto:video,q_auto/v1/video/yef2flxkxxlr8j5s0b9i"
+              }
+              type="video/mp4"
+            />
+          </video>
+        </div>
+
+        <div className="flex justify-between items-center mt-5">
+          <p className=" font-poppins text-stone-50 text-xs ">
+            Engage & Enjoy Discover Events and Chat with Peers
+          </p>
+          <FaAngleRight className="text-white size-3" />
+        </div>
+
+        <div className=" w-full flex justify-center items-center space-x-2 mt-4 ">
+          <div className="w-1/2 bg-stone-50 h-[132px] bg-opacity-20 rounded-md text-stone-50 space-y-3 text-xs">
+            <img src={events} alt="Events" />
+            <p>Events</p>
+          </div>
+          <div className="w-1/2 bg-stone-50 h-[132px] bg-opacity-20 rounded-md text-stone-50 space-y-3 text-xs">
+            <img src={chart} alt="Chart" />
+            <p>Chat Rooms</p>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center mt-10">
+          <p className=" font-poppins text-stone-50 text-xs ">
+            Mental Health Awareness
+          </p>
+          <FaAngleRight className="text-white size-3" />
+        </div>
+
+        <div className="mt-5 overflow-hidden rounded-[33px]">
+          <video width="600" controls className="">
+            <source
+              src={
+                "https://res.cloudinary.com/dwhwlxysm/video/upload/f_auto:video,q_auto/v1/video/wxvd8f2zu3obutr3hhwu"
+              }
+              type="video/mp4"
+            />
+          </video>
+        </div>
+        <div className="flex items-center justify-center w-full mt-3 ">
+          <GoDotFill className="text-white size-2" />
+          <GoDotFill className="text-white size-2" />
+          <GoDotFill className="text-white size-2" />
+        </div>
+        <div>
+          <div className="flex justify-between items-center mt-5">
+            <p className=" font-poppins text-stone-50 text-xs ">Products</p>
+            <FaAngleRight className="text-white size-3" />
+          </div>
+          <ProductContainer />
+        </div>
+        <BottomNavigation />
       </div>
-    );
-  }
-  
-  export default Home;
-  
+    </div>
+  );
+}
+
+export default Home;

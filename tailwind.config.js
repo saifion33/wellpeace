@@ -15,6 +15,7 @@ export default {
       backgroundImage: {
         "custom-background-gradient":
           "linear-gradient(to bottom, #b1baff , #eea9e8)",
+        "home-page-header-gradient":"linear-gradient(135deg, #f77dc6, #e18ce5, #c699fd, #aeb3e9)"
       },
     },
   },

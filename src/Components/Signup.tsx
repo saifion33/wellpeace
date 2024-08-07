@@ -1,30 +1,49 @@
 import wellnessImage from "../assets/images/starting page.svg";
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
-import { SiFacebook, SiLinkedin } from "react-icons/si";
+import { SiFacebook } from "react-icons/si";
 import { FcGoogle } from "react-icons/fc";
 import * as yup from "yup";
 import { useState } from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../redux-hooks";
+import { signup } from "../redux/actions/auth";
 
-
+import { FaUserSecret } from "react-icons/fa";
+import { LuLoader2 } from "react-icons/lu";
+import { toast } from "react-toastify";
 
 function Signuppage() {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const initialValues: SignupLoginForm = {
+  const { loading } = useAppSelector((state) => state.auth);
+  const initialValues: ISignupLoginForm = {
     email: "",
     password: "",
   };
-  const handleSubmit = (values: SignupLoginForm, {resetForm}:FormikHelpers<SignupLoginForm>) => {
-    alert(
-      `HI ${values.email.split("@")[0]}, we are implimenting signup feature`
-    );
-    resetForm();
+  const handleSubmit = async (
+    values: ISignupLoginForm,
+    { resetForm }: FormikHelpers<ISignupLoginForm>
+  ) => {
+    const { email, password } = values;
+    dispatch(signup({ email, password }))
+      .then((res) => {
+        if (signup.fulfilled.match(res)) {
+          navigate("/");
+          resetForm();
+        } else if (signup.rejected.match(res)) {
+          console.log(res.error.message)
+          toast.error(res.payload?.message,{autoClose:1500})
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const signupWith = () => {
-    alert("We are working on These features");
+  const handleSinginExternalProvider = () => {
+    alert("we are working on these features");
   };
 
   // regular expression to validate.
@@ -36,7 +55,7 @@ function Signuppage() {
     email: yup.string().email("invalid email").required("email is required"),
     password: yup
       .string()
-      .min(8,'password length must be atleast 8 characters')
+      .min(8, "password length must be atleast 8 characters")
       .matches(
         passRegexp,
         "password must include atleast 1 number and 1 capital letter."
@@ -74,7 +93,6 @@ function Signuppage() {
         className="lg:w-1/2"
       >
         <Form className="space-y-2 lg:space-y-5 mt-6 border-[1px] border-stone-50 lg:mt-10 mx-auto bg-stone-50 bg-opacity-20 backdrop-blur-2xl px-6 py-6 lg:py-12 lg:px-12 rounded-md lg:w-[400px] max-w-[400px] ">
-
           <div>
             <Field
               placeholder="Email"
@@ -94,30 +112,30 @@ function Signuppage() {
           </div>
 
           <div>
-              <div className="flex items-center text-[#FFF5E9] border-b-2 border-stone-50">
-                <Field
-                  placeholder="Password"
-                  id="password"
-                  name="password"
-                  type={isPasswordVisible ? "text" : "password"}
-                  required
-                  className="w-full focus:outline-none  py-2  bg-transparent  placeholder:text-[#FFF5E9]"
-                />
-                <div
-                  onClick={() => setIsPasswordVisible((p) => !p)}
-                  className="text-xl pr-2"
-                >
-                  {!isPasswordVisible ? <IoEye /> : <IoEyeOff />}
-                </div>
-              </div>
-              <div className="h-8 pt-2">
-                <ErrorMessage
-                  className="text-xs text-red-500 "
-                  name="password"
-                  component={"div"}
-                />
+            <div className="flex items-center text-[#FFF5E9] border-b-2 border-stone-50">
+              <Field
+                placeholder="Password"
+                id="password"
+                name="password"
+                type={isPasswordVisible ? "text" : "password"}
+                required
+                className="w-full focus:outline-none  py-2  bg-transparent  placeholder:text-[#FFF5E9]"
+              />
+              <div
+                onClick={() => setIsPasswordVisible((p) => !p)}
+                className="text-xl pr-2"
+              >
+                {!isPasswordVisible ? <IoEye /> : <IoEyeOff />}
               </div>
             </div>
+            <div className="h-8 pt-2">
+              <ErrorMessage
+                className="text-xs text-red-500 "
+                name="password"
+                component={"div"}
+              />
+            </div>
+          </div>
 
           <label className="flex items-center space-x-2 text-xs lg:text-base">
             <input type="checkbox" className="form-checkbox text-blue-600" />
@@ -129,9 +147,11 @@ function Signuppage() {
           <div>
             <button
               type="submit"
-              className="flex w-full mt-5 lg:mt-0 text-sm lg:text-base justify-center rounded-full bg-[#4274c2] hover:bg-[#477cd0] px-3 py-1 leading-6 text-[#FFF5E9] "
+              disabled={loading}
+              className="flex w-full mt-5 lg:mt-0 text-sm lg:text-base justify-center items-center gap-3 rounded-full bg-[#4274c2] hover:bg-[#477cd0] px-3 py-1 leading-6 text-[#FFF5E9] "
             >
               Sign Up
+              {loading && <LuLoader2 className="text-stone-50 animate-spin" />}
             </button>
           </div>
           <div>
@@ -140,29 +160,33 @@ function Signuppage() {
             </p>
             <div className="lg:mt-3 p-2 rounded flex justify-evenly">
               <div
-                onClick={signupWith}
+                onClick={handleSinginExternalProvider}
+                title="google"
                 className=" rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center"
               >
                 <FcGoogle className="cursor-pointer text-[42px]" />
               </div>
               <div
-                onClick={signupWith}
+                onClick={handleSinginExternalProvider}
+                title="facebook"
                 className="p-2 rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center"
               >
                 <SiFacebook className="text-blue-600 cursor-pointer text-4xl" />
               </div>
               <div
-                onClick={signupWith}
-                className="p-1 rounded-full bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center"
+                onClick={handleSinginExternalProvider}
+                title="anonymous"
+                className="p-1 rounded-full  bg-stone-50 bg-opacity-20 h-12 w-12 flex justify-center items-center"
               >
-                <SiLinkedin className="text-blue-800 text-2xl cursor-pointer" />
+                <FaUserSecret className="text-blue-800 text-2xl cursor-pointer" />
               </div>
             </div>
           </div>
 
           <div className="mt-10 text-center lg:text-lg text-[#FFF5E9]">
             Have an account?
-            <button onClick={()=>navigate('/login')}
+            <button
+              onClick={() => navigate("/login")}
               className="ml-2 font-semibold leading-6 hover:text-[] text-stone-50 underline"
             >
               Log In
@@ -170,7 +194,10 @@ function Signuppage() {
           </div>
         </Form>
       </Formik>
-      <button onClick={()=>navigate('/')} className="absolute bottom-0 right-4 text-stone-50 tracking-wide ">
+      <button
+        onClick={() => navigate("/")}
+        className="absolute bottom-0 right-4 text-stone-50 tracking-wide "
+      >
         Skip
       </button>
     </div>

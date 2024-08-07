@@ -6,13 +6,19 @@ import * as yup from "yup";
 import { FcGoogle } from "react-icons/fc";
 import { SiFacebook, SiLinkedin } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
-const initialValues: SignupLoginForm = {
+import { useAppDispatch, useAppSelector } from "../redux-hooks";
+import { login } from "../redux/actions/auth";
+import { toast } from "react-toastify";
+import { LuLoader2 } from "react-icons/lu";
+const initialValues: ISignupLoginForm = {
   email: "",
   password: "",
 };
 function Loginpage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const {loading}=useAppSelector(state=>state.auth)
   const ValidationSchema = yup.object({
     email: yup.string().email("invalid email").required("email is required"),
     password: yup.string().required("password is required"),
@@ -22,12 +28,20 @@ function Loginpage() {
   };
 
   const handleSubmit = (
-    values: SignupLoginForm,
-    { resetForm }: FormikHelpers<SignupLoginForm>
+    values: ISignupLoginForm,
+    { resetForm }: FormikHelpers<ISignupLoginForm>
   ) => {
-    alert(
-      `HI ${values.email.split("@")[0]}, we are implimenting signup feature`
-    );
+    dispatch(login(values)).then((res) => {
+      if (login.fulfilled.match(res)) {
+        navigate("/");
+        toast.success(res.payload.message,{autoClose:1500});
+      } else if (login.rejected.match(res)) {
+        const alertMessage = res.payload?.message;
+        if (alertMessage) {
+          toast.warning(alertMessage,{autoClose:1500});
+        }
+      }
+    });
     resetForm();
   };
   return (
@@ -100,11 +114,13 @@ function Loginpage() {
             </div>
           </div>
           <div>
-            <button
+          <button
               type="submit"
-              className="flex w-full mt-7 lg:mt-0 text-sm lg:text-base justify-center rounded-full bg-[#4274c2] hover:bg-[#477cd0] px-3 py-1 leading-6 text-[#FFF5E9] "
+              disabled={loading}
+              className="flex w-full mt-5 lg:mt-0 text-sm lg:text-base justify-center items-center gap-3 rounded-full bg-[#4274c2] hover:bg-[#477cd0] px-3 py-1 leading-6 text-[#FFF5E9] "
             >
               Login
+              {loading && <LuLoader2 className="text-stone-50 animate-spin" />}
             </button>
           </div>
           <p className="text-sm text-center my-4 text-stone-50">
@@ -137,7 +153,8 @@ function Loginpage() {
           </div>
           <div className="mt-10 text-center lg:text-lg text-[#FFF5E9]">
             Have an account?
-            <button onClick={()=>navigate('/signup')}
+            <button
+              onClick={() => navigate("/signup")}
               className="ml-2 font-semibold leading-6 hover:text-[] text-stone-50 underline"
             >
               Signup
@@ -146,7 +163,10 @@ function Loginpage() {
         </Form>
       </Formik>
 
-      <button onClick={()=>navigate('/')} className="absolute bottom-0 right-4 text-stone-50 tracking-wide ">
+      <button
+        onClick={() => navigate("/")}
+        className="absolute bottom-0 right-4 text-stone-50 tracking-wide "
+      >
         Skip
       </button>
     </section>
