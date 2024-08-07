@@ -5,7 +5,7 @@ interface IProps {
 }
 const ProductCard = ({ product }: IProps) => {
   return (
-    <article className="product-card w-[48%] bg-stone-50 p-4 rounded-xl h-64 bg-opacity-30 flex flex-col gap-5 ">
+    <article className="product-card w-[48%] max-w-60 bg-stone-50 p-4 rounded-xl h-64 bg-opacity-30 flex flex-col gap-5 ">
       <figure className="image-container w-full flex justify-center items-center  h-full">
         <img src={product.imageLink} alt={product.name} />
       </figure>
