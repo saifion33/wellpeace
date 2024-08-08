@@ -12,13 +12,22 @@ import ProductContainer from "./products/ProductContainer";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useAppDispatch, useAppSelector } from "../redux-hooks";
-import { logout} from "../redux/slices/auth";
+import { logout } from "../redux/slices/auth";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { getAllProducts } from "../redux/actions/products";
 
 function Home() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+  const { loading, random_4_products} = useAppSelector((state) => state.products);
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
@@ -31,8 +40,8 @@ function Home() {
   };
 
   return (
-    <div className="bg-custom-background-gradient flex justify-center">
-      <div className=" w-full max-w-md p-4">
+    <div className="bg-custom-background-gradient flex flex-col items-center ">
+      <div className=" w-full max-w-md p-4 mb-6">
         <header className="flex justify-between items-center mb-3">
           <div>
             <h2 className="text-left drop-shadow-md text-[17px] font-poppins text-[#FFF5E9]">
@@ -151,10 +160,12 @@ function Home() {
             <p className=" font-poppins text-stone-50 text-xs ">Products</p>
             <FaAngleRight className="text-white size-3" />
           </div>
-          <ProductContainer />
+          <ProductContainer loading={loading} products={random_4_products || null} />
         </div>
-        <BottomNavigation />
       </div>
+      <footer className="max-w-md w-full fixed bottom-0 flex justify-center items-center">
+        <BottomNavigation />
+      </footer>
     </div>
   );
 }

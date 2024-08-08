@@ -34,3 +34,18 @@ export const signinWithEmail = async (data: ISignupData) => {
   }
 };
 
+export const getRandomItems=(products:IProduct[],itemsCount:number) => {
+  const randomItems:IProduct[] = [];
+  for (let i = 0; i < itemsCount; i++) {
+    const random=Math.round(Math.random() * products.length);
+    const product=products[random];
+    const isItem=randomItems.find(item=>item._id===product._id);
+    if (isItem) {
+      itemsCount++;
+      continue;
+    }
+    randomItems.push(product);
+  }
+  console.log(randomItems);
+  return randomItems;
+}
