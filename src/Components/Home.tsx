@@ -1,5 +1,5 @@
 import { FaSearch } from "react-icons/fa";
-import kimg from "../assets/icons/4.svg";
+  import posterImage from "../assets/icons/poster.svg";
 
 import { FaAngleRight } from "react-icons/fa6";
 import { GoDotFill } from "react-icons/go";
@@ -42,7 +42,7 @@ function Home() {
   return (
     <div className="bg-custom-background-gradient flex flex-col items-center ">
       <div className=" w-full max-w-md p-4 mb-6">
-        <header className="flex justify-between items-center mb-3">
+        <header className="flex justify-between items-center mb-3 sticky top-0 left-0 bg-lightBlue bg-opacity-40 p-2 z-10 backdrop-blur-md">
           <div>
             <h2 className="text-left drop-shadow-md text-[17px] font-poppins text-[#FFF5E9]">
               Welcome!
@@ -85,7 +85,7 @@ function Home() {
                 Peaceful minds create a healthy world
               </p>
               <img
-                src={kimg}
+                src={posterImage}
                 alt="image icon"
                 className="w-32 drop-shadow absolute right-0 top-0"
               />
@@ -158,7 +158,7 @@ function Home() {
         <div>
           <div className="flex justify-between items-center mt-5">
             <p className=" font-poppins text-stone-50 text-xs ">Products</p>
-            <FaAngleRight className="text-white size-3" />
+            <FaAngleRight onClick={()=>navigate('/products')} className="text-white size-3" />
           </div>
           <ProductContainer loading={loading} products={random_4_products || null} />
         </div>
