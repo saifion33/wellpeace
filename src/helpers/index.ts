@@ -61,3 +61,9 @@ export const firebaseSignout=async()=>{
     return false;
   }
 }
+
+export const quotes=[
+  "Peaceful minds create a healthy world",
+  "You have a brave heart and an unstoppable spirit. Keep shining your light! ",
+  "You are a work of art, and every stroke, even the rough ones, adds to your unique masterpiece."
+]

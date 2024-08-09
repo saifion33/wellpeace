@@ -1,5 +1,5 @@
 import { FaSearch } from "react-icons/fa";
-  import posterImage from "../assets/icons/poster.svg";
+import posterImage from "../assets/icons/poster.svg";
 
 import { FaAngleRight } from "react-icons/fa6";
 import { GoDotFill } from "react-icons/go";
@@ -10,23 +10,36 @@ import { useNavigate } from "react-router-dom";
 import BottomNavigation from "./common/BottomNavigation";
 import ProductContainer from "./products/ProductContainer";
 import { useAppDispatch, useAppSelector } from "../redux-hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAllProducts } from "../redux/actions/products";
+import { quotes } from "../helpers";
 
 function Home() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const {auth,products}= useAppSelector((state) => state);
-  const user=auth.user;
-  const {loading,random_4_products}=products
+  const { auth, products } = useAppSelector((state) => state);
+  const user = auth.user;
+  const { loading, random_4_products } = products;
+  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   useEffect(() => {
     dispatch(getAllProducts());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleLogout = () => {
-    navigate('/user')
+  const handleProfileClick = () => {
+    navigate("/user");
   };
+
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
+    }, 2000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+
 
   return (
     <div className="bg-custom-background-gradient flex flex-col items-center ">
@@ -42,14 +55,16 @@ function Home() {
           </div>
           <div
             onClick={() => {
-              user ? handleLogout() : navigate("/signup");
+              user ? handleProfileClick() : navigate("/signup");
             }}
             className="bg-stone-50 cursor-pointer bg-opacity-40 backdrop-blur-sm w-9 h-9 flex justify-center items-center text-slate-700  px-1 pt-1 pb-[2px] text-3xl rounded-sm"
           >
             {user?.imageUrl ? (
               <img src={user.imageUrl} alt={user.name} />
             ) : user?.name ? (
-              <h1 className="flex justify-center items-center w-full ">{user.name.slice(0, 1).toUpperCase()}</h1>
+              <h1 className="flex justify-center items-center w-full ">
+                {user.name.slice(0, 1).toUpperCase()}
+              </h1>
             ) : (
               <FaUser className="text-stone-50" />
             )}
@@ -71,7 +86,7 @@ function Home() {
           <div className="relative w-full">
             <div className="w-[88%] p-2 h-32 bg-home-page-header-gradient mt-7 flex items-center rounded-md">
               <p className="font-poppins text-white text-sm w-2/3 ">
-                Peaceful minds create a healthy world
+                {quotes[currentQuoteIndex]}
               </p>
               <img
                 src={posterImage}
@@ -82,16 +97,16 @@ function Home() {
           </div>
 
           <div className="flex items-center justify-center w-full mt-3 ">
-            <GoDotFill className="text-white size-2" />
-            <GoDotFill className="text-white size-2" />
-            <GoDotFill className="text-white size-2" />
+            <GoDotFill className={`${currentQuoteIndex==0?'text-stone-50 ':'text-slate-950'} size-2`} />
+            <GoDotFill className={`${currentQuoteIndex==1?'text-stone-50 ':'text-slate-950'} size-2`} />
+            <GoDotFill className={`${currentQuoteIndex==2?'text-stone-50 ':'text-slate-950'}  size-2`} />
           </div>
         </div>
         <div className="mt-5 flex justify-between">
           <p className="font-poppins text-stone-50 text-xs">
             Moments of Happiness, Just for You
           </p>
-          <FaAngleRight className="text-white size-3" />
+          <FaAngleRight onClick={()=>navigate('/memory')} className="text-white size-3" />
         </div>
         <div className="mt-5 overflow-hidden rounded-[33px]">
           <video width="600" controls className="">
@@ -108,7 +123,7 @@ function Home() {
           <p className=" font-poppins text-stone-50 text-xs ">
             Engage & Enjoy Discover Events and Chat with Peers
           </p>
-          <FaAngleRight className="text-white size-3" />
+          <FaAngleRight onClick={()=>navigate('/community')} className="text-white size-3" />
         </div>
 
         <div className=" w-full flex justify-center items-center space-x-2 mt-4 ">
@@ -147,9 +162,15 @@ function Home() {
         <div>
           <div className="flex justify-between items-center mt-5">
             <p className=" font-poppins text-stone-50 text-xs ">Products</p>
-            <FaAngleRight onClick={()=>navigate('/products')} className="text-white size-3" />
+            <FaAngleRight
+              onClick={() => navigate("/products")}
+              className="text-white size-3"
+            />
           </div>
-          <ProductContainer loading={loading} products={random_4_products || null} />
+          <ProductContainer
+            loading={loading}
+            products={random_4_products || null}
+          />
         </div>
       </div>
       <footer className="max-w-md w-full fixed bottom-0 flex justify-center items-center">
