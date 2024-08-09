@@ -1,5 +1,5 @@
 import { FaChevronLeft } from "react-icons/fa";
-import { MdQuestionMark } from "react-icons/md";
+import { MdOutlineKeyboardArrowRight, MdQuestionMark } from "react-icons/md";
 import profileIcon from "../../assets/icons/profile icon.svg";
 import languageicon from "../../assets/icons/language icon.svg";
 import theme from "../../assets/icons/theme icon.svg";
@@ -10,51 +10,87 @@ import supercoins from "../../assets/icons/supercoin icon.svg";
 import logouticon from "../../assets/icons/logout icon .svg";
 import editpic from "../../assets/icons/edit icon.svg";
 import BottomNavigation from "../common/BottomNavigation";
+import { useNavigate } from "react-router-dom";
+import ToggleSwitch from "../common/ToggleSwitch";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux-hooks";
+
+import { logout } from "../../redux/slices/auth";
+import { firebaseSignout } from "../../helpers";
+import { auth } from "../../firebase";
 function Profile() {
+  const navigate = useNavigate();
+  const [isChecked, setIsChecked] = useState(false);
+  const dispatch=useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+
+  const handleSignout=async()=>{
+   const res=await firebaseSignout();
+   if (res) {
+    dispatch(logout());
+    navigate('/');
+   }
+  }
+
+  useEffect(()=>{
+    const user=auth.currentUser
+    console.log(user);
+  },[])
   return (
     <div className="bg-custom-background-gradient relative flex-wrap pt-6 ">
-      <div>
-        <div className="absolute left-7">
-          <FaChevronLeft className="text-stone-50 cursor-pointer size-5" />
-        </div>
-        <div>
-          <h2 className="text-[17px] font-poppins text-[#FFF5E9] text-center">
-            Profile
-          </h2>
-        </div>
-        <div>
-          <MdQuestionMark className="text-white size-5 absolute right-5 top-6" />
-        </div>
-      </div>
-      <div className="relative mt-[2.5rem] p-4">
-        <img
-          className="w-[77.4px] h-[77.4px] bg-transparent mt-[0.5rem] ml-[100px]"
-          src={profileIcon}
-          alt="profile-icon"
+      <header className="flex justify-between items-center px-4">
+        <FaChevronLeft
+          onClick={() => navigate(-1)}
+          className="text-stone-50 cursor-pointer "
         />
-        <img
-          className="absolute w-[20.3px] h-[20.3px] left-[173px] top-[77px]"
-          src={editpic}
-          alt="edit-icon"
-        />
+        <h2 className="font-poppins text-[#FFF5E9] text-center">Profile</h2>
+        <MdQuestionMark className="text-stone-50" />
+      </header>
+      <div className="relative flex  justify-center items-center p-4 mt-10">
+        <div className="relative w-fit">
+          {user?.imageUrl ? (
+            <img src={user.imageUrl} alt={user.name} />
+          ) : user?.name ? (
+            <h1 className="w-20 h-20 rounded-full flex justify-center items-center bg-stone-50 bg-opacity-30 text-5xl">{user.name.slice(0, 1).toUpperCase()}</h1>
+          ) : (
+            <img
+              className="w-20 h-20 bg-transparent "
+              src={profileIcon}
+              alt="profile-icon"
+            />
+          )}
+          <img
+            className="absolute  -right-3 bottom-0"
+            src={editpic}
+            alt="edit-icon"
+          />
+        </div>
       </div>
 
       <div>
-        <div className="flex items-center">
-          <img
-            className="w-[77.4px] h-[77.4px] bg-transparent"
-            src={languageicon}
-            alt="language-icon"
-          />
-          <p className="text-white font-poppins">Language</p>
+        <div className="flex items-center justify-between pr-2 ">
+          <div className="flex items-center">
+            <img
+              className="w-[77.4px] h-[77.4px] bg-transparent"
+              src={languageicon}
+              alt="language-icon"
+            />
+            <p className="text-white font-poppins">Language</p>
+          </div>
+          <MdOutlineKeyboardArrowRight className="text-2xl bg-slate-900 p-1 rounded text-stone-50" />
         </div>
-        <div className="flex items-center -mt-[10px]">
-          <img
-            className="w-[77.4px] h-[77.4px] bg-transparent"
-            src={theme}
-            alt="language-icon"
-          />
-          <p className="text-white font-poppins">Theme</p>
+        <div className="flex items-center justify-between pr-2">
+          <div className="flex items-center">
+            <img
+              className="w-[77.4px] h-[77.4px] bg-transparent"
+              src={theme}
+              alt="language-icon"
+            />
+            <p className="text-white font-poppins">Theme</p>
+          </div>
+          <div>
+            <ToggleSwitch isChecked={isChecked} setIsChecked={setIsChecked} />
+          </div>
         </div>
         <div className="flex items-center -mt-[10px]">
           <img
@@ -89,7 +125,7 @@ function Profile() {
           <p className="text-white font-poppins">Supercoins</p>
         </div>
         <div className="flex w-full justify-between px-3">
-          <div className="flex items-center space-x-2">
+          <div onClick={handleSignout} className="flex items-center space-x-2">
             <img src={logouticon} alt="logout-icon" className="size-9" />
             <p className="text-white">Logout</p>
           </div>

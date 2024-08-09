@@ -9,34 +9,23 @@ import { FaUser } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import BottomNavigation from "./common/BottomNavigation";
 import ProductContainer from "./products/ProductContainer";
-import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
 import { useAppDispatch, useAppSelector } from "../redux-hooks";
-import { logout } from "../redux/slices/auth";
-import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { getAllProducts } from "../redux/actions/products";
 
 function Home() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
-  const { loading, random_4_products} = useAppSelector((state) => state.products);
-
+  const {auth,products}= useAppSelector((state) => state);
+  const user=auth.user;
+  const {loading,random_4_products}=products
   useEffect(() => {
     dispatch(getAllProducts());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        dispatch(logout());
-        toast.success("Logout successfully.", { autoClose: 1500 });
-      })
-      .catch((err) => {
-        toast.warning(err.message, { autoClose: 1500 });
-      });
+    navigate('/user')
   };
 
   return (
@@ -60,7 +49,7 @@ function Home() {
             {user?.imageUrl ? (
               <img src={user.imageUrl} alt={user.name} />
             ) : user?.name ? (
-              user.name.slice(0, 1).toUpperCase()
+              <h1 className="flex justify-center items-center w-full ">{user.name.slice(0, 1).toUpperCase()}</h1>
             ) : (
               <FaUser className="text-stone-50" />
             )}

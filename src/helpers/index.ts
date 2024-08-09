@@ -3,6 +3,7 @@ import { auth } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 
 export const signupwithEmail = async (data: ISignupData) => {
@@ -48,4 +49,15 @@ export const getRandomItems=(products:IProduct[],itemsCount:number) => {
   }
   console.log(randomItems);
   return randomItems;
+}
+
+export const firebaseSignout=async()=>{
+  try {
+    await signOut(auth);
+    return true;
+  } catch (error) {
+    const errMsg=error as {message:string}
+    toast.error(errMsg.message)
+    return false;
+  }
 }
