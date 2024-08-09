@@ -7,6 +7,7 @@ import { useAppSelector } from "../../redux-hooks";
 import ChannelCard from "./ChannelCard";
 import { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
+import { Link } from "react-router-dom";
 function Channels() {
   const { channels, loading } = useAppSelector((state) => state.channnels);
   const [searchQuery, setSearchQuery] = useState("");
@@ -67,12 +68,12 @@ function Channels() {
       }
 
       <div className=" flex justify-center mt-5 ">
-        <button
+        <Link to={'create'}
           type="submit"
           className="  tracking-wide w-full font-ubuntu font-bold flex justify-center rounded-full bg-[#82A1FD] px-3 py-2 text-sm leading-6 text-white shadow-sm hover:bg-indigo-500 "
         >
           Create Your Own Intrest Channel
-        </button>
+        </Link>
       </div>
       <BottomNavigation />
     </div>

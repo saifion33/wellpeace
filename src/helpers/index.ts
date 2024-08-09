@@ -1,19 +1,21 @@
 import { toast } from "react-toastify";
-import { auth } from "../firebase";
+import { auth, database } from "../firebase";
 
-import Treking from "../assets/icons/trekking and tourism icon.svg";
+import Treking from "../assets/icons/travel and tracking icon.svg";
 import CulturalFests from "../assets/icons/cultural.svg";
 import Games from "../assets/icons/games icon.svg";
 import Music from "../assets/icons/music icon.svg";
 import Dancing from "../assets/icons/dancing icon.svg";
 import Excercise from "../assets/icons/exercise icon.svg";
-import charitableAct from "../assets/icons/charitable act icon.svg";
+import charitableAct from "../assets/icons/charity act icon.svg";
 
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import { DataSnapshot, get, push, ref, serverTimestamp} from "firebase/database";
+
 
 export const signupwithEmail = async (data: ISignupData) => {
   try {
@@ -69,6 +71,48 @@ export const firebaseSignout=async()=>{
     toast.error(errMsg.message)
     return false;
   }
+}
+
+
+export const createChannelFunc=async(data:ICreateChannelData)=>{
+  try {
+    const completeData={...data,joinedAt:serverTimestamp(),admins:{'BbY0DaLE8dXZBM1DYC58ryRsrpR2':true}};
+    const channelsRef=ref(database,'channels');
+    const res=await push(channelsRef,completeData);
+    toast.success('channel created successfully.',{autoClose:1500})
+    return res.key;
+  } catch (error) {
+    const errMsg=error as {message:string}
+    toast.error(errMsg.message,{autoClose:1500})
+    console.log(error)
+  }
+}
+
+export const getChannelsList=async()=>{
+  try {
+    const channelsRef=ref(database,'channels');
+    const res=await get(channelsRef)
+    const data=transformObjectToArray(res)
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+export const transformObjectToArray = (snapVal:DataSnapshot) => {
+  if (!snapVal.exists()) {
+    return null;
+  }
+  const data=snapVal.val();
+  if (typeof data !== 'object' || data === null) {
+    return [];
+  }
+
+  return Object.keys(data).map(item=>{
+    return {...data[item],_id:item}
+  })
 }
 
 export const quotes=[

@@ -48,3 +48,17 @@ interface IChannel{
   createdAt: Date;
   imageUrl: string;
 }
+
+interface ICreateChannelResponse{
+  _id: string;
+}
+
+interface ICreateChannelFormData{
+  name: string;
+  description: string;
+  imageUrl: string;
+}
+
+interface ICreateChannelData extends ICreateChannelFormData{
+  uid:string;
+}
