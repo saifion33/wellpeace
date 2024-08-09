@@ -38,3 +38,13 @@ interface IGetAllProductsResponse {
   message: string;
   products: IProduct[];
 }
+
+interface IChannel{
+  _id: string;
+  name: string;
+  description: string;
+  admins: string[];
+  members: string[];
+  createdAt: Date;
+  imageUrl: string;
+}

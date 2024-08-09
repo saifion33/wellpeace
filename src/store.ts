@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./redux/slices/auth"
 import productsReducer from './redux/slices/products'
+import channelsReducer from './redux/slices/channels'
 const store = configureStore({
   reducer: {
       auth:authReducer,
-      products:productsReducer
+      products:productsReducer,
+      channnels:channelsReducer
   },
 });
 
