@@ -38,7 +38,7 @@ function Channels() {
   }, []);
 
   return (
-    <div className="bg-custom-background-gradient py-3 px-5 max-w-xl mx-auto min-h-screen">
+    <div className="bg-custom-background-gradient py-3 px-5 max-w-md mx-auto min-h-screen">
       <div>
         <div className="px-2">
           <FaChevronLeft className="text-stone-50 cursor-pointer size-5 " />

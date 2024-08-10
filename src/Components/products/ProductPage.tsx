@@ -30,9 +30,9 @@ const ProductPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="bg-custom-background-gradient bg-fixed min-h-screen">
-      <header className="sticky top-0 left-0 lg:flex w-full justify-between bg-lightBlue bg-opacity-30 backdrop-blur-md p-3">
-        <section className="flex items-center justify-between mt-2 text-stone-50 lg:w-5/6">
+    <div className="bg-custom-background-gradient bg-fixed min-h-screen max-w-md mx-auto">
+      <header className="sticky top-0 left-0 w-full justify-between bg-lightBlue bg-opacity-30 backdrop-blur-md p-3">
+        <section className="flex items-center justify-between mt-2 text-stone-50">
           <MdArrowBackIos onClick={() => navigate(-1)} className="" />
           <p className="mx-auto">Products</p>
         </section>

@@ -5,7 +5,7 @@ import image1 from "../../assets/icons/memory mosaic image 1.svg";
 import BottomNavigation from "../common/BottomNavigation";
 function Memory() {
   return (
-    <div className="bg-custom-background-gradient relative flex-wrap pt-6 ">
+    <div className="bg-custom-background-gradient relative flex-wrap pt-6 max-w-md mx-auto ">
       <div>
         <div className="absolute left-4">
           <FaChevronLeft className="text-stone-50 cursor-pointer size-5 mr-5" />

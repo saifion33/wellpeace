@@ -2,33 +2,63 @@ import { useEffect, useState } from "react";
 import Chatcard from "./Chatcard";
 import { useAppSelector } from "../../../redux-hooks";
 import { toast } from "react-toastify";
-import { chatsList } from "../../../helpers";
 import { ImSpinner2 } from "react-icons/im";
 import { TbFileSad } from "react-icons/tb";
+import ChatInput from "./ChatInput";
+import { equalTo, orderByChild, query, ref, onValue } from "firebase/database";
+import { database } from "../../../firebase";
 
-const Chatroom = () => {
+interface IProps {
+  channelId: string;
+}
+
+
+const Chatroom = ({ channelId }: IProps) => {
   const [chats, setChats] = useState<IChat[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [usersName, setUsersName] = useState<ReplyTo[]|null>(null);
   const user = useAppSelector((state) => state.auth.user);
+  const channelRef = ref(database, "messages");
+  const channelQuery = query(
+    channelRef,
+    orderByChild("channelId"),
+    equalTo(channelId)
+  );
+
   const getChats = () => {
     if (!user) {
-      return toast.warning("Login Please to access this page.");
+      toast.warning("Login Please to access this page.");
+      return;
     }
     setIsLoading(true);
-    setTimeout(() => {
-      setChats(chatsList);
-      setIsLoading(false);
-    }, 1000);
+    const unsubscribe = onValue(channelQuery, (snapshot) => {
+      if (snapshot.exists()) {
+        const list:IChat[] = Object.values(snapshot.val());
+        setChats(list);
+        const listOfUsers=list.map((message)=>{return {name:message.author.name,_id:message.author._id}});
+        
+        setUsersName(Array.from(new Set(listOfUsers)));
+      }else{
+        setChats(null);
+      }
+    });
+    setIsLoading(false);
+    return unsubscribe;
   };
   useEffect(() => {
-    getChats();
+    const unsub = getChats();
+    if (unsub) {
+      return () => {
+        unsub();
+      };
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <div className="px-3">
-      <main className="flex flex-wrap gap-5 p-3 h-[86vh] max-h-[86vh] overflow-y-auto no-scrollbar bg-stone-50 bg-opacity-20 rounded-md ">
+      <main className=" space-y-3 p-3  no-scrollbar  h-screen">
         {isLoading && (
-          <div className="flex justify-center items-center h-[80vh] w-full">
+          <div className="flex justify-center h-[60vh] items-center w-full">
             <ImSpinner2 className="text-5xl text-stone-50 animate-spin" />
           </div>
         )}
@@ -44,6 +74,7 @@ const Chatroom = () => {
           chats &&
           chats.map((chat) => <Chatcard chat={chat} key={chat._id} />)}
       </main>
+      <ChatInput usersName={usersName} channelId={channelId} />
     </div>
   );
 };

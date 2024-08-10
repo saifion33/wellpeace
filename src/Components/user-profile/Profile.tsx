@@ -37,7 +37,7 @@ function Profile() {
     console.log(user);
   },[])
   return (
-    <div className="bg-custom-background-gradient relative flex-wrap pt-6 ">
+    <div className="bg-custom-background-gradient relative flex-wrap pt-6 max-w-md mx-auto ">
       <header className="flex justify-between items-center px-4">
         <FaChevronLeft
           onClick={() => navigate(-1)}

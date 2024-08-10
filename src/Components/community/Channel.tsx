@@ -69,7 +69,7 @@ const Channel = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="relative bg-custom-background-gradient min-h-screen text-stone-50 py-4">
+    <div className="relative bg-custom-background-gradient min-h-screen text-stone-50 py-4 max-w-md mx-auto">
       {isLoading && (
         <div className="flex justify-center items-center h-[90vh]">
           <ImSpinner2 className="text-5xl text-stone-50 animate-spin" />
@@ -85,7 +85,7 @@ const Channel = () => {
       )}
       {!isLoading && channel && (
         <div>
-          <header className="flex items-center px-2">
+          <header className="flex items-center px-2 sticky top-0 left-0 bg-lightBlue ">
             <FaChevronLeft onClick={() => isChatroomOpen?setIsChatroomOpen(false):navigate(-1)} />
             <div className="flex items-center justify-center ml-[16%]">
               <figure className="w-20 h-20 rounded-full overflow-hidden  flex justify-center items-center">
@@ -103,9 +103,9 @@ const Channel = () => {
           {!isChatroomOpen && (
             <EventsContainer events={eventsList} loading={isEventsLoading} />
           )}
-          {isChatroomOpen && <Chatroom/>}
+          {(isChatroomOpen && channelId) && <Chatroom channelId={channelId} />}
           {!isChatroomOpen && (
-            <footer className="fixed bottom-0 left-0 w-full">
+            <footer className="fixed bottom-0 max-w-md w-full mx-auto ">
               <div className="sticky bottom-0 left-0 w-full  ">
                 <button
                   onClick={() => setIsChatroomOpen(true)}

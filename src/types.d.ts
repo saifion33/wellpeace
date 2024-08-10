@@ -83,5 +83,11 @@ interface IChat {
     name: string;
     _id: string;
   }|null;
-  createdAt: Date;
+  channelId: string;
+  createdAt: object;
+}
+
+interface ReplyTo{
+  _id: string;
+  name: string;
 }
