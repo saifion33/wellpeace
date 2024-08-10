@@ -12,6 +12,7 @@ import Channels from "./Components/community/Channels";
 import Profile from "./Components/user-profile/Profile";
 import Memory from "./Components/memory/Memory";
 import CreateChannel from "./Components/community/CreateChannel";
+import Channel from "./Components/community/Channel";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/community" element={<Channels />} />
+          <Route path="/community/Channel/:channelId" element={<Channel/>} />
           <Route path="/community/create" element={<CreateChannel/>} />
           <Route path="/user" element={<Profile />} />
           <Route path="/memory" element={<Memory/>} />

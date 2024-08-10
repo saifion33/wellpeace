@@ -9,6 +9,19 @@ import Dancing from "../assets/icons/dancing icon.svg";
 import Excercise from "../assets/icons/exercise icon.svg";
 import charitableAct from "../assets/icons/charity act icon.svg";
 
+import kodachadriImage from '../assets/images/kodachadri.png'
+import coorgImage from '../assets/images/coorg.png'
+import dudhSagerImage from '../assets/images/dudhsagar.png'
+import savanDurgaImage from '../assets/images/savandurga.png'
+import skandaGiriImage from '../assets/images/skandagiri.png'
+import uttariBettaImage from '../assets/images/uttaribetta.png'
+import nightCampImage from '../assets/images/night camp.png'
+import lakeSideImage from '../assets/images/lakeside.png'
+import gokarnaImage from '../assets/images/gokarna.png'
+import Place45Image from '../assets/images/45 places.png'
+import TrekkingInBangloreImage from '../assets/images/trekking in bangalore.png'
+import placeToVisitImage from '../assets/images/places to visit.png'
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -132,3 +145,22 @@ export const channels:IChannel[] = [
   {_id:'ch6',admins:['user1', 'user2'],createdAt:new Date(),description:'For tracking and tourisim ',imageUrl:Excercise,members:['user3'],name:'Exercise and Yoga'},
   {_id:'ch7',admins:['user1', 'user2'],createdAt:new Date(),description:'For tracking and tourisim ',imageUrl:Games,members:['user3'],name:'Games and Fun Zone'},
 ]
+interface IEvents{
+  [_id:string]:IEvent[];
+}
+export const events:IEvents={
+  '-O3qsq6I5c_JSoBfpHEw':[
+    {_id:'1',name:'kodachadri',description:'For tracking and tourisim',redirectUrl:null,imageUrl:kodachadriImage},
+    {_id:'2',name:'Coorg',description:'',redirectUrl:null,imageUrl:coorgImage},
+    {_id:'3',name:'Dudh Sagar',description:'',redirectUrl:null,imageUrl:dudhSagerImage},
+    {_id:'4',name:'Savan Durga',description:'',redirectUrl:null,imageUrl:savanDurgaImage},
+    {_id:'5',name:'Skandagiri',description:'',redirectUrl:null,imageUrl:skandaGiriImage},
+    {_id:'6',name:'Uttari Betta',description:'',redirectUrl:null,imageUrl:uttariBettaImage},
+    {_id:'7',name:'Night Camp',description:'',redirectUrl:null,imageUrl:nightCampImage},
+    {_id:'8',name:'Lake Side',description:'',redirectUrl:null,imageUrl:lakeSideImage},
+    {_id:'9',name:'Gokarna',description:'',redirectUrl:null,imageUrl:gokarnaImage},
+    {_id:'10',name:'45 Place to visit',description:'',redirectUrl:null,imageUrl:Place45Image},
+    {_id:'11',name:'Trekking In bangalore',description:'',redirectUrl:null,imageUrl:TrekkingInBangloreImage},
+    {_id:'12',name:'Place to Visit In Banglore',description:'',redirectUrl:null,imageUrl:placeToVisitImage},
+  ]
+}

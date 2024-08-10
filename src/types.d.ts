@@ -62,3 +62,11 @@ interface ICreateChannelFormData{
 interface ICreateChannelData extends ICreateChannelFormData{
   uid:string;
 }
+
+interface IEvent{
+  _id:string;
+  name:string;
+  description:string;
+  imageUrl:string|null;
+  redirectUrl:string|null;
+}
