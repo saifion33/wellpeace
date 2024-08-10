@@ -50,6 +50,7 @@ const ChatInput = ({ channelId, usersName }: Iprops) => {
         replyTo:replyingTo,
         createdAt: serverTimestamp(),
       };
+      console.log(message);
       const messageRef = firebaseRef(database, `messages/${_id}`);
       await set(messageRef, message);
       setInput("");
