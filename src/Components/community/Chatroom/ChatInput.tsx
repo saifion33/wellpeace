@@ -43,7 +43,7 @@ const ChatInput = ({ channelId, usersName }: Iprops) => {
         channelId,
         author: {
           _id: user._id,
-          imageUrl: user.imageUrl,
+          imageUrl: user.imageUrl || null,
           name: user.name,
         },
         message: input,
