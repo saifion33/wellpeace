@@ -39,7 +39,7 @@ interface IGetAllProductsResponse {
   products: IProduct[];
 }
 
-interface IChannel{
+interface IChannel {
   _id: string;
   name: string;
   description: string;
@@ -49,24 +49,39 @@ interface IChannel{
   imageUrl: string;
 }
 
-interface ICreateChannelResponse{
+interface ICreateChannelResponse {
   _id: string;
 }
 
-interface ICreateChannelFormData{
+interface ICreateChannelFormData {
   name: string;
   description: string;
-  imageUrl: string|null;
+  imageUrl: string | null;
 }
 
-interface ICreateChannelData extends ICreateChannelFormData{
-  uid:string;
+interface ICreateChannelData extends ICreateChannelFormData {
+  uid: string;
 }
 
-interface IEvent{
-  _id:string;
-  name:string;
-  description:string;
-  imageUrl:string|null;
-  redirectUrl:string|null;
+interface IEvent {
+  _id: string;
+  name: string;
+  description: string;
+  imageUrl: string | null;
+  redirectUrl: string | null;
+}
+
+interface IChat {
+  _id: string;
+  author: {
+    _id: string;
+    name: string;
+    imageUrl: string | null;
+  };
+  message: string;
+  replyTo: {
+    name: string;
+    _id: string;
+  }|null;
+  createdAt: Date;
 }

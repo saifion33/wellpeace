@@ -1,6 +1,8 @@
 import { toast } from "react-toastify";
 import { auth, database } from "../firebase";
 
+import Avatar2 from "/src/assets/images/avatar2.png";
+
 import Treking from "../assets/icons/travel and tracking icon.svg";
 import CulturalFests from "../assets/icons/cultural.svg";
 import Games from "../assets/icons/games icon.svg";
@@ -164,3 +166,87 @@ export const events:IEvents={
     {_id:'12',name:'Place to Visit In Banglore',description:'',redirectUrl:null,imageUrl:placeToVisitImage},
   ]
 }
+
+export const chatsList:IChat[]=[
+  {
+    _id: "c1",
+    message:
+      "Hey everyone! Did anyone else see the Kodachadri trek announcement for July 2? Seems like an epic adventure!",
+    replyTo:null,
+    author: {
+      _id: "us1",
+      imageUrl: null,
+      name: "Sam",
+    },
+    createdAt: new Date(),
+  },
+  {
+    _id: "c2",
+    message:
+      "Hey everyone! Did anyone else see the Kodachadri trek announcement for July 2? Seems like an epic adventure!",
+    replyTo: null,
+    author: {
+      _id: "us1",
+      imageUrl: Avatar2,
+      name: "Ravi",
+    },
+    createdAt: new Date(),
+  },
+  {
+    _id: "c3",
+    message:
+      "Hey everyone! Did anyone else see the Kodachadri trek announcement for July 2? Seems like an epic adventure!",
+    replyTo: null,
+    author: {
+      _id: "us1",
+      imageUrl: null,
+      name: "Sam",
+    },
+    createdAt: new Date(),
+  },
+  {
+    _id: "c4",
+    message:
+      "Hey everyone! Did anyone else see the Kodachadri trek announcement for July 2? Seems like an epic adventure!",
+    replyTo: {
+      _id: "c2",
+      name: "Ravi",
+    },
+    author: {
+      _id: "us1",
+      imageUrl: null,
+      name: "Sam",
+    },
+    createdAt: new Date(),
+  },
+  {
+    _id: "c4",
+    message:
+      "Hey everyone! Did anyone else see the Kodachadri trek announcement for July 2? Seems like an epic adventure!",
+    replyTo: {
+      _id: "c2",
+      name: "Ravi",
+    },
+    author: {
+      _id: "us1",
+      imageUrl: null,
+      name: "Sam",
+    },
+    createdAt: new Date(),
+  },
+  {
+    _id: "c4",
+    message:
+      "Hey everyone! Did anyone else see the Kodachadri trek announcement for July 2? Seems like an epic adventure!",
+    replyTo: {
+      _id: "c2",
+      name: "Ravi",
+    },
+    author: {
+      _id: "us1",
+      imageUrl: null,
+      name: "Sam",
+    },
+    createdAt: new Date(),
+  },
+]
