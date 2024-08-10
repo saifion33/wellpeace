@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { channels } from "../../helpers";
-import { createChannel } from "../actions/channels";
+import { createChannel, getAllChannels } from "../actions/channels";
 
 type InitialState = {
   channels: IChannel[] | null;
@@ -11,7 +10,7 @@ type InitialState = {
 const initialState: InitialState = {
   errors: null,
   loading: false,
-  channels: channels,
+  channels: null,
 };
 
 const channelsSlice = createSlice({
@@ -19,6 +18,7 @@ const channelsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // ************************************ create a new channel **********************************
     builder.addCase(createChannel.pending, (state) => {
       state.errors = null;
       state.loading = true;
@@ -31,6 +31,21 @@ const channelsSlice = createSlice({
       const errors = action.payload?.errors;
       state.errors = errors || [action.error.message || "unknow error"];
     });
+    // ********************************** Get all channels list ********************************
+    builder.addCase(getAllChannels.pending, (state) => {
+      state.errors = null;
+      state.loading = true;
+    });
+    builder.addCase(getAllChannels.fulfilled, (state,action) => {
+      state.loading = false;
+      state.channels=action.payload;
+    });
+    builder.addCase(getAllChannels.rejected, (state, action) => {
+      state.loading = false;
+      const errors = action.payload?.errors;
+      state.errors = errors || [action.error.message || "unknow error"];
+    });
+    // ********************************* 
   },
 });
 

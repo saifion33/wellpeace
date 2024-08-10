@@ -6,6 +6,7 @@ import { LuLoader2 } from "react-icons/lu";
 import { FaUsers } from "react-icons/fa";
 import { createChannel } from "../../redux/actions/channels.ts";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const initialValues: ICreateChannelFormData = {
   name: "",
@@ -22,6 +23,7 @@ function CreateChannel() {
       .string()
       .min(3, "channel name should be atleast 3 character.")
       .required("Name is required"),
+      description:yup.string().min(10,"description should be atleast 10 characters.").required("Description is required.")
   });
 
   const handleSubmit = (
@@ -42,6 +44,13 @@ function CreateChannel() {
         }
     })
   };
+  useEffect(()=>{
+    if (!user) {
+      toast.info('Login to Access this feature',{autoClose:1500})
+      navigate('/login')
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
   return (
     <section className="bg-custom-background-gradient relative min-h-screen flex items-center justify-center flex-wrap pt-6 pb-14">
       <div className="lg:w-1/2">

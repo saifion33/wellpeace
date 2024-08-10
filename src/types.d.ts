@@ -56,7 +56,7 @@ interface ICreateChannelResponse{
 interface ICreateChannelFormData{
   name: string;
   description: string;
-  imageUrl: string;
+  imageUrl: string|null;
 }
 
 interface ICreateChannelData extends ICreateChannelFormData{

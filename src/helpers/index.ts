@@ -93,9 +93,11 @@ export const getChannelsList=async()=>{
     const channelsRef=ref(database,'channels');
     const res=await get(channelsRef)
     const data=transformObjectToArray(res)
-    console.log(data);
+    return data;
   } catch (error) {
     console.log(error);
+    const errMsg=error as {message:string}
+    toast.error(errMsg.message,{autoClose:1500});
   }
 }
 
