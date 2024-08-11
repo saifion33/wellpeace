@@ -1,8 +1,8 @@
 interface Iprops {
-  url: string | null;
+  event:IEvent;
 }
-const EventCard = ({ url }: Iprops) => {
-  return <div>{url && <img src={url} alt="event" />}</div>;
+const EventCard = ({ event}: Iprops) => {
+  return <a className="my-3 block " href={event.redirectUrl?event.redirectUrl:'#'}>{event.imageUrl && <img src={event.imageUrl} alt="event" />}</a>;
 };
 
 export default EventCard;

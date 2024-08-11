@@ -4,11 +4,11 @@ import EventCard from "./EventCard";
 
 interface IProps {
   loading: boolean;
-  events: IEvent[]|null;
+  events: IEvent[] | null;
 }
 const EventsContainer = ({ events, loading }: IProps) => {
   return (
-    <main className="flex flex-wrap p-3 h-[80vh] max-h-[80vh] overflow-y-auto no-scrollbar">
+    <main className="p-3 h-[80vh] max-h-[80vh] overflow-y-auto no-scrollbar">
       {loading && (
         <div className="flex justify-center items-center h-[80vh] w-full">
           <ImSpinner2 className="text-5xl text-stone-50 animate-spin" />
@@ -22,9 +22,11 @@ const EventsContainer = ({ events, loading }: IProps) => {
           </div>
         </section>
       )}
-      {
-        (!loading && events) && events.map(event=><EventCard url={event.imageUrl} />)
-      }
+      <div className="mx-auto space-y-6 pl-4">
+        {!loading &&
+          events &&
+          events.map((event) => <EventCard event={event} />)}
+      </div>
     </main>
   );
 };

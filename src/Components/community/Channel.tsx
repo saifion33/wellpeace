@@ -85,7 +85,7 @@ const Channel = () => {
       )}
       {!isLoading && channel && (
         <div>
-          <header className="flex items-center px-2 sticky top-0 left-0 bg-lightBlue ">
+          <header className="flex items-center px-2 sticky top-0 left-0 bg-lightBlue z-10 ">
             <FaChevronLeft onClick={() => isChatroomOpen?setIsChatroomOpen(false):navigate(-1)} />
             <div className="flex items-center justify-center ml-[16%]">
               <figure className="w-20 h-20 rounded-full overflow-hidden  flex justify-center items-center">

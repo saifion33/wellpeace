@@ -10,18 +10,7 @@ import Dancing from "../assets/icons/dancing icon.svg";
 import Excercise from "../assets/icons/exercise icon.svg";
 import charitableAct from "../assets/icons/charity act icon.svg";
 
-import kodachadriImage from '../assets/images/kodachadri.png'
-import coorgImage from '../assets/images/coorg.png'
-import dudhSagerImage from '../assets/images/dudhsagar.png'
-import savanDurgaImage from '../assets/images/savandurga.png'
-import skandaGiriImage from '../assets/images/skandagiri.png'
-import uttariBettaImage from '../assets/images/uttaribetta.png'
-import nightCampImage from '../assets/images/night camp.png'
-import lakeSideImage from '../assets/images/lakeside.png'
-import gokarnaImage from '../assets/images/gokarna.png'
-import Place45Image from '../assets/images/45 places.png'
-import TrekkingInBangloreImage from '../assets/images/trekking in bangalore.png'
-import placeToVisitImage from '../assets/images/places to visit.png'
+
 
 import {
   createUserWithEmailAndPassword,
@@ -151,18 +140,18 @@ interface IEvents{
 }
 export const events:IEvents={
   '-O3qsq6I5c_JSoBfpHEw':[
-    {_id:'1',name:'kodachadri',description:'For tracking and tourisim',redirectUrl:null,imageUrl:kodachadriImage},
-    {_id:'2',name:'Coorg',description:'',redirectUrl:null,imageUrl:coorgImage},
-    {_id:'3',name:'Dudh Sagar',description:'',redirectUrl:null,imageUrl:dudhSagerImage},
-    {_id:'4',name:'Savan Durga',description:'',redirectUrl:null,imageUrl:savanDurgaImage},
-    {_id:'5',name:'Skandagiri',description:'',redirectUrl:null,imageUrl:skandaGiriImage},
-    {_id:'6',name:'Uttari Betta',description:'',redirectUrl:null,imageUrl:uttariBettaImage},
-    {_id:'7',name:'Night Camp',description:'',redirectUrl:null,imageUrl:nightCampImage},
-    {_id:'8',name:'Lake Side',description:'',redirectUrl:null,imageUrl:lakeSideImage},
-    {_id:'9',name:'Gokarna',description:'',redirectUrl:null,imageUrl:gokarnaImage},
-    {_id:'10',name:'45 Place to visit',description:'',redirectUrl:null,imageUrl:Place45Image},
-    {_id:'11',name:'Trekking In bangalore',description:'',redirectUrl:null,imageUrl:TrekkingInBangloreImage},
-    {_id:'12',name:'Place to Visit In Banglore',description:'',redirectUrl:null,imageUrl:placeToVisitImage},
+    {_id:'1',name:'kodachadri',description:'For tracking and tourisim',redirectUrl:"https://insider.in/kodachadri-trek-aug16-2024/event",imageUrl:"https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/n67ybhurrjnrjqkukz4n"},
+    {_id:'2',name:'Coorg',description:'',redirectUrl:"https://insider.in/coorg-and-mandalpatti-by-adventure-buddha-aug2-2024/event?embed=true&merchantId=57a42ad31b55e04007ca815b",imageUrl:'https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/ziqeudkruq84jbyl48cn'},
+    {_id:'3',name:'Dudh Sagar',description:'',redirectUrl:"https://www.thrillophilia.com/tours/multitudinous-activities-at-candolim-in-goa",imageUrl:"https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/fvdb5tsni3a2y656ctl0"},
+    {_id:'4',name:'Savan Durga',description:'',redirectUrl:"https://www.thrillophilia.com/tours/night-trekking-in-skandagiri-bangalore",imageUrl:"https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/xd4leoipd2smjraiohdx"},
+    {_id:'5',name:'Skandagiri',description:'',redirectUrl:"https://www.thrillophilia.com/tours/night-trekking-in-skandagiri-bangalore",imageUrl:"https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/tjeigmrzzfcr0cla7kcz"},
+    {_id:'6',name:'Uttari Betta',description:'',redirectUrl:"https://www.thrillophilia.com/tours/uttari-betta-sunrise-trek",imageUrl:"https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/iimhzoifrlff7cn2dizn"},
+    {_id:'7',name:'Night Camp',description:'',redirectUrl:"https://insider.in/night-camping-trek-activities-ramanagar-apr29-2023/event",imageUrl:"https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/rqkgiugv36hfqnlqwbb9"},
+    {_id:'8',name:'Lake Side',description:'',redirectUrl:"https://insider.in/lakeside-camping-in-kanva-by-escape2explore-apr2-2021/event",imageUrl:"https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/ofc9szqovwm52ylnyhxi"},
+    {_id:'9',name:'Gokarna',description:'',redirectUrl:"https://www.holidify.com/places/gokarna/",imageUrl:"https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/umikybbb3akum2mmwwvh"},
+    {_id:'10',name:'45 Place to visit',description:'',redirectUrl:"https://www.thrillophilia.com/destinations/bangalore/places-to-visit",imageUrl:"https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/shrrjjtz2idnus6cpzmy"},
+    {_id:'11',name:'Trekking In bangalore',description:'',redirectUrl:"https://www.holidify.com/collections/trekking-in-bangalore",imageUrl:"https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/rmp4la5yw6gqsvbghvgp"},
+    {_id:'12',name:'Place to Visit In Banglore',description:'',redirectUrl:"https://www.tripadvisor.in/Attractions-g297628-Activities-Bengaluru_Bangalore_District_Karnataka.html",imageUrl:"https://res.cloudinary.com/dwhwlxysm/image/upload/f_png/wellpeace/events/g5djhydouusfzlewfty0"},
   ]
 }
 
