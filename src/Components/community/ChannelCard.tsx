@@ -6,7 +6,7 @@ interface Iprops {
 }
 const ChannelCard = ({ channel }: Iprops) => {
   return (
-    <Link to={`channel/${channel._id}`} className="">
+    <Link to={`channel/${channel._id}/events`} className="">
       <div className="flex gap-2 items-center">
         <figure className="w-20 h-20 rounded-full overflow-hidden  flex justify-center items-center">
           <div className="w-12 h-12 overflow-hidden flex justify-center items-center rounded-full">

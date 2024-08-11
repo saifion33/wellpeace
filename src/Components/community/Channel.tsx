@@ -4,39 +4,22 @@ import chatRoomIcon from "../../assets/icons/chatroom icon.svg";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../redux-hooks";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import {  Outlet, useNavigate, useParams } from "react-router-dom";
 import { ref, get } from "firebase/database";
 import { database } from "../../firebase";
 import { ImSpinner2 } from "react-icons/im";
 import { TbFileSad } from "react-icons/tb";
-import { events } from "../../helpers";
-import EventsContainer from "./EventsContainer";
-import Chatroom from "./Chatroom";
+
 
 const Channel = () => {
   const { channelId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
-  const [isEventsLoading, setIsEventsLoading] = useState(false);
-  const [eventsList, setEventsList] = useState<IEvent[] | null>(null);
   const [channel, setChannel] = useState<IChannel | null>(null);
-  const [isChatroomOpen, setIsChatroomOpen] = useState(false);
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.auth.user);
   const channelRef = ref(database, `/channels/${channelId}`);
 
-  const getEvents = async (channelId: string) => {
-    setIsEventsLoading(true);
-    setTimeout(() => {
-      const list = events[channelId];
-      if (!list) {
-        setEventsList(null);
-        setIsEventsLoading(false);
-        return;
-      }
-      setIsEventsLoading(false);
-      setEventsList(list);
-    }, 1000);
-  };
+  
 
   const getChannel = async () => {
     try {
@@ -50,7 +33,6 @@ const Channel = () => {
           toast.error("Invalid channel ID.");
           return;
         }
-        getEvents(channelId);
       }
     } catch (error) {
       const errMsg = error as { message: string };
@@ -58,13 +40,14 @@ const Channel = () => {
       console.log(error);
     }
   };
+
+
   useEffect(() => {
     if (!user) {
       toast.info("Login Please to access this feature.");
       navigate("/login");
       return;
     }
-
     getChannel();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -83,10 +66,16 @@ const Channel = () => {
           </div>
         </section>
       )}
-      {!isLoading && channel && (
+      {!isLoading && channel &&channelId && (
         <div>
           <header className="flex items-center px-2 sticky top-0 left-0 bg-lightBlue z-10 ">
-            <FaChevronLeft onClick={() => isChatroomOpen?setIsChatroomOpen(false):navigate(-1)} />
+            <FaChevronLeft
+              onClick={() =>{
+                if (location.pathname.includes('chatroom')){
+                  navigate(`/community/channel/${channelId}/`)
+                }else navigate(`/community`)
+              }}
+            />
             <div className="flex items-center justify-center ml-[16%]">
               <figure className="w-20 h-20 rounded-full overflow-hidden  flex justify-center items-center">
                 <div className="w-12 h-12 overflow-hidden flex justify-center items-center rounded-full">
@@ -100,22 +89,19 @@ const Channel = () => {
               <p>{channel.name}</p>
             </div>
           </header>
-          {!isChatroomOpen && (
-            <EventsContainer events={eventsList} loading={isEventsLoading} />
-          )}
-          {(isChatroomOpen && channelId) && <Chatroom channelId={channelId} />}
-          {!isChatroomOpen && (
+          <Outlet/>
+          {!location.pathname.includes('chatroom') && (
             <footer className="fixed bottom-0 max-w-md w-full mx-auto ">
-              <div className="sticky bottom-0 left-0 w-full  ">
-                <button
-                  onClick={() => setIsChatroomOpen(true)}
-                  className="flex justify-center bg-[#82a1fd] w-full  p-2 items-center text-stone-50 gap-2"
-                >
-                  <img src={chatRoomIcon} alt="chat room" />
-                  <p>Chatroom</p>
-                </button>
-              </div>
-            </footer>
+            <div className="sticky bottom-0 left-0 w-full  ">
+              <button
+                onClick={() => navigate(`/community/channel/${channelId}/chatroom`)}
+                className="flex justify-center bg-[#82a1fd] w-full  p-2 items-center text-stone-50 gap-2"
+              >
+                <img src={chatRoomIcon} alt="chat room" />
+                <p>Chatroom</p>
+              </button>
+            </div>
+          </footer>
           )}
         </div>
       )}

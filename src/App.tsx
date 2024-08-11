@@ -13,6 +13,8 @@ import Profile from "./Components/user-profile/Profile";
 import Memory from "./Components/memory/Memory";
 import CreateChannel from "./Components/community/CreateChannel";
 import Channel from "./Components/community/Channel";
+import EventsContainer from "./Components/community/EventsContainer";
+import Chatroom from "./Components/community/Chatroom";
 
 function App() {
   return (
@@ -39,7 +41,13 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/community" element={<Channels />} />
-          <Route path="/community/Channel/:channelId" element={<Channel/>} />
+          <Route path="/community/channel/:channelId" element={<Channel/>}>
+          <Route>
+            <Route path="/community/channel/:channelId/" element={<EventsContainer/>} />
+            <Route path="/community/channel/:channelId/events" element={<EventsContainer/>} />
+            <Route path="/community/channel/:channelId/chatroom" element={<Chatroom/>} />
+          </Route>
+          </Route>
           <Route path="/community/create" element={<CreateChannel/>} />
           <Route path="/user" element={<Profile />} />
           <Route path="/memory" element={<Memory/>} />

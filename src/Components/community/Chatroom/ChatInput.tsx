@@ -81,7 +81,7 @@ const ChatInput = ({ channelId, usersName }: Iprops) => {
   };
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-pinkishPurple p-2 pt-3 flex justify-between items-center gap-2">
+    <footer className="fixed bottom-0 bg-pinkishPurple p-2 pt-3 flex justify-between items-center gap-2 max-w-md w-full mx-auto">
       <div className="relative w-full">
         {replyingTo ? (
           <div className="flex items-center justify-between py-1 text-slate-800">

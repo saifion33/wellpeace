@@ -7,28 +7,32 @@ import { TbFileSad } from "react-icons/tb";
 import ChatInput from "./ChatInput";
 import { equalTo, orderByChild, query, ref, onValue } from "firebase/database";
 import { database } from "../../../firebase";
+import { useNavigate, useParams } from "react-router-dom";
 
-interface IProps {
-  channelId: string;
-}
-
-const Chatroom = ({ channelId }: IProps) => {
-  const [chats, setChats] = useState<IChat[] | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [usersName, setUsersName] = useState<ReplyTo[] | null>(null);
-  const user = useAppSelector((state) => state.auth.user);
+const Chatroom = () => {
+  const navigete = useNavigate();
+  const { channelId } = useParams();
   const channelRef = ref(database, "messages");
-  const channelQuery = query(
-    channelRef,
-    orderByChild("channelId"),
-    equalTo(channelId)
-  );
+  const [isLoading, setIsLoading] = useState(false);
+  const user = useAppSelector((state) => state.auth.user);
+  const [chats, setChats] = useState<IChat[] | null>(null);
+  const [usersName, setUsersName] = useState<ReplyTo[] | null>(null);
 
   const getChats = () => {
     if (!user) {
       toast.warning("Login Please to access this page.");
       return;
     }
+    if (!channelId) {
+      navigete('/community');
+      return;
+    }
+    const channelQuery = query(
+      channelRef,
+      orderByChild("channelId"),
+      equalTo(channelId)
+    );
+
     setIsLoading(true);
     const unsubscribe = onValue(channelQuery, (snapshot) => {
       if (snapshot.exists()) {
@@ -61,8 +65,8 @@ const Chatroom = ({ channelId }: IProps) => {
         unsub();
       };
     }
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channelId]);
   return (
     <div className="px-3">
@@ -80,11 +84,11 @@ const Chatroom = ({ channelId }: IProps) => {
             </div>
           </section>
         )}
-        {!isLoading &&
+        {!isLoading  &&
           chats &&
           chats.map((chat) => <Chatcard chat={chat} key={chat._id} />)}
       </main>
-      <ChatInput usersName={usersName} channelId={channelId} />
+      {channelId && <ChatInput usersName={usersName} channelId={channelId} />}
     </div>
   );
 };
