@@ -41,7 +41,7 @@ const Chatcard = ({ chat }: IProps) => {
         <main className="w-full">
           <div className="flex items-center gap-2 w-full">
             <h1 className="text-[#f381c2] font-bold">{chat.author.name}</h1>
-            <p className="text-slate-500 text-sm">{createdAt}</p>
+            <p className="text-slate-500 text-xs">{createdAt}</p>
            
           </div>
           <p className="text-sm">{chat.message}</p>

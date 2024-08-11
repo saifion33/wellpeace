@@ -69,7 +69,7 @@ const Channel = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className="relative bg-custom-background-gradient min-h-screen text-stone-50 py-4 max-w-md mx-auto">
+    <div className="relative bg-custom-background-gradient min-h-screen text-stone-50 pt-4 pb-2 max-w-md mx-auto">
       {isLoading && (
         <div className="flex justify-center items-center h-[90vh]">
           <ImSpinner2 className="text-5xl text-stone-50 animate-spin" />

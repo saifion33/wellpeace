@@ -12,11 +12,10 @@ interface IProps {
   channelId: string;
 }
 
-
 const Chatroom = ({ channelId }: IProps) => {
   const [chats, setChats] = useState<IChat[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [usersName, setUsersName] = useState<ReplyTo[]|null>(null);
+  const [usersName, setUsersName] = useState<ReplyTo[] | null>(null);
   const user = useAppSelector((state) => state.auth.user);
   const channelRef = ref(database, "messages");
   const channelQuery = query(
@@ -33,16 +32,26 @@ const Chatroom = ({ channelId }: IProps) => {
     setIsLoading(true);
     const unsubscribe = onValue(channelQuery, (snapshot) => {
       if (snapshot.exists()) {
-        const list:IChat[] = Object.values(snapshot.val());
+        const list: IChat[] = Object.values(snapshot.val());
         setChats(list);
-        const listOfUsers=list.map((message)=>{return {name:message.author.name,_id:message.author._id}});
-        
-        setUsersName(Array.from(new Set(listOfUsers)));
-      }else{
+        const unfilteredList = list.map((chat) => {
+          return { _id: chat.author._id, name: chat.author.name };
+        });
+        const ids: string[] = [];
+        const listOfUsers: ReplyTo[] = [];
+        unfilteredList.forEach((userObj) => {
+          const id = userObj._id;
+          if (!ids.includes(id)) {
+            ids.push(id);
+            listOfUsers.push(userObj);
+          }
+        });
+        setUsersName(listOfUsers);
+      } else {
         setChats(null);
       }
+      setIsLoading(false);
     });
-    setIsLoading(false);
     return unsubscribe;
   };
   useEffect(() => {
@@ -52,11 +61,12 @@ const Chatroom = ({ channelId }: IProps) => {
         unsub();
       };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [channelId]);
   return (
     <div className="px-3">
-      <main className=" space-y-3 p-3  no-scrollbar  h-screen">
+      <main className=" space-y-3 p-3  no-scrollbar overflow-y-auto  max-h-[73vh]">
         {isLoading && (
           <div className="flex justify-center h-[60vh] items-center w-full">
             <ImSpinner2 className="text-5xl text-stone-50 animate-spin" />
