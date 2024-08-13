@@ -14,4 +14,6 @@ export const loginApi=(data:ISignupApiData)=>api.post('/auth/login',data);
 export const updateUsernameApi=(data:IUpdateUsernameData)=>api.patch("/auth/updateUsername",data);
 export const updateUserImageApi=(data:FormData)=>api.patch("/auth/updateUserImage",data);
 
+export const getUserInfoApi=(_id:string)=>api.get(`/auth/getUserInfo?_id=${_id}`);
+
 export const getAllProductsApi=()=>api.get('/products/all');
