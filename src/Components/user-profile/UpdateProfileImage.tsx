@@ -6,9 +6,9 @@ import AvatarEditor from "react-avatar-editor";
 import { toast } from "react-toastify";
 import { auth } from "../../firebase/index.ts";
 import { updateUserImageApi } from "../../API/index.ts";
-import { LuLoader2 } from "react-icons/lu";
 import { useAppDispatch } from "../../redux-hooks.ts";
 import { setUser } from "../../redux/slices/auth.ts";
+import { ImSpinner2 } from "react-icons/im";
 
 interface Iprops {
   imageUrl: string;
@@ -17,12 +17,10 @@ interface Iprops {
 const MAX_FILE_SIZE = 1024 * 1024 * 2; //Max file size 2MB
 const UpdateProfileImage = ({ imageUrl }: Iprops) => {
   const editorRef = useRef(null);
-  const [selectedProfileImage, setSelectedProfileImage] = useState<
-    File | string | null
-  >(imageUrl);
+  const [selectedProfileImage, setSelectedProfileImage] = useState<File | string | null>(imageUrl);
   const [imageToRender, setImageToRender] = useState<null | string>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const dispatch=useAppDispatch();
+  const dispatch = useAppDispatch();
 
   const handleImageChange = async () => {
     if (selectedProfileImage !== imageUrl) {
@@ -39,26 +37,33 @@ const UpdateProfileImage = ({ imageUrl }: Iprops) => {
     }
   };
   const uploadImage = async () => {
-    setIsUploading(true);
-    const blob = await handleImageChange();
-    if (!blob) {
+    try {
+      setIsUploading(true);
+      const blob = await handleImageChange();
+      if (!blob) {
+        setIsUploading(false);
+        return;
+      }
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) {
+        setIsUploading(false);
+        return toast.error("user not logged in.");
+      }
+      const fd = new FormData();
+      fd.append("updatedUserImage", blob);
+      fd.append("token", token);
+      const res = await updateUserImageApi(fd);
+      const response: { message: string; user: IUser } = res.data;
+      console.log(response.user);
+      dispatch(setUser(response.user));
       setIsUploading(false);
-      return;
-    }
-    const token = await auth.currentUser?.getIdToken();
-    if (!token) {
+      window.location.reload();
+    } catch (error) {
       setIsUploading(false);
-      return toast.error("user not logged in.");
+      console.log(error);
+      const errMsg = error as { message: string };
+      toast.error(errMsg.message, { autoClose: 1500 });
     }
-    const fd=new FormData();
-    fd.append('updatedUserImage',blob)
-    fd.append('token',token);
-    const res = await updateUserImageApi(fd);
-    const response: { message: string; user: IUser } = res.data;
-    console.log(response.user);
-    dispatch(setUser(response.user));
-    setIsUploading(false);
-    handleResetProfileImage();
   };
 
   const handleSelectProfileImage = (event: ChangeEvent<HTMLInputElement>) => {
@@ -74,8 +79,8 @@ const UpdateProfileImage = ({ imageUrl }: Iprops) => {
     reader.onload = () => {
       const img = new Image();
       img.onload = () => {
-        if (img.width < 128 || img.height < 128) {
-          alert("please select image that have minimum width and height 128px");
+        if (img.width < 140 || img.height < 140) {
+          alert("please select image that have minimum width and height 140px");
         }
       };
       const result = reader.result;
@@ -109,13 +114,15 @@ const UpdateProfileImage = ({ imageUrl }: Iprops) => {
         )}
       </div>
 
-      <label htmlFor="profile-image">
-        <img
-          className="absolute  -right-1 bottom-0 w-10"
-          src={editPic}
-          alt="edit-icon"
-        />
-      </label>
+      {!isUploading && (
+        <label htmlFor="profile-image">
+          <img
+            className="absolute  -right-1 bottom-0 w-10"
+            src={editPic}
+            alt="edit-icon"
+          />
+        </label>
+      )}
 
       <input
         onChange={handleSelectProfileImage}
@@ -123,21 +130,27 @@ const UpdateProfileImage = ({ imageUrl }: Iprops) => {
         type="file"
         name="profile-image"
         id="profile-image"
+        accept="image/*"
       />
-      {imageToRender && (
+      {imageToRender && !isUploading && (
         <AiOutlineClose
           onClick={handleResetProfileImage}
           role="button"
           className="text-3xl text-red-500 border-[1px] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-stone-50  bg-opacity-80 rounded-full p-[2px]"
         />
       )}
-      {imageToRender && (
+      {(imageToRender && !isUploading) && (
         <AiOutlineCheck
           onClick={() => uploadImage()}
           className="absolute  -right-1 bottom-0 text-[40px] bg-green-500 rounded-full p-1 text-stone-50"
         />
       )}
-      {isUploading && <LuLoader2 className="text-stone-50 animate-spin" />}
+      {isUploading && (
+        <div className="absolute text-stone-50  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+          <ImSpinner2 className=" animate-spin text-3xl" />
+          <p className="bg-black bg-opacity-40">Uploading..</p>
+        </div>
+      )}
     </div>
   );
 };
