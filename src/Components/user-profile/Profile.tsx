@@ -8,34 +8,68 @@ import about from "../../assets/icons/about us icon.svg";
 import feedback from "../../assets/icons/feedback icon.svg";
 import supercoins from "../../assets/icons/supercoin icon.svg";
 import logouticon from "../../assets/icons/logout icon .svg";
-import editpic from "../../assets/icons/edit icon.svg";
 import BottomNavigation from "../common/BottomNavigation";
 import { useNavigate } from "react-router-dom";
 import ToggleSwitch from "../common/ToggleSwitch";
-import { useEffect, useState } from "react";
+import { useEffect,  useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux-hooks";
 
-import { logout } from "../../redux/slices/auth";
+import { logout, setUser } from "../../redux/slices/auth";
 import { firebaseSignout } from "../../helpers";
+import {
+  AiOutlineCheck,
+  AiOutlineEdit,
+} from "react-icons/ai";
+import { updateUsernameApi } from "../../API";
 import { auth } from "../../firebase";
+import { toast } from "react-toastify";
+import UpdateProfileImage from "./UpdateProfileImage";
+
 function Profile() {
   const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
-  const dispatch=useAppDispatch();
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
+  const [userNameAfterEdit, setUserNameAfterEdit] = useState("saifi");
+  const [isNameEditing, setIsNameEditing] = useState(false);
+  
+  const handleSignout = async () => {
+    const res = await firebaseSignout();
+    if (res) {
+      dispatch(logout());
+      navigate("/");
+    }
+  };
 
-  const handleSignout=async()=>{
-   const res=await firebaseSignout();
-   if (res) {
-    dispatch(logout());
-    navigate('/');
-   }
+  const handleChangeUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserNameAfterEdit(e.target.value);
+  };
+  const handleEditNameClick=()=>{
+    setIsNameEditing(true);
+    user && setUserNameAfterEdit(user?.name)
   }
 
-  useEffect(()=>{
-    const user=auth.currentUser
-    console.log(user);
-  },[])
+  const handleUpdateName=async()=>{
+    setIsNameEditing(false);
+    if (userNameAfterEdit.trim()===user?.name) {
+      return;
+    }
+    if (!auth.currentUser) {
+      toast.warning("Please Login")
+      return;
+    }
+    const token=await auth.currentUser.getIdToken();
+    const res=await updateUsernameApi({token,updatedUsername:userNameAfterEdit});
+    const response:{message:string,user:IUser}=res.data;
+    dispatch(setUser(response.user));
+  }
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div className="bg-custom-background-gradient relative flex-wrap pt-6 max-w-md mx-auto ">
       <header className="flex justify-between items-center px-4">
@@ -46,26 +80,33 @@ function Profile() {
         <h2 className="font-poppins text-[#FFF5E9] text-center">Profile</h2>
         <MdQuestionMark className="text-stone-50" />
       </header>
-      <div className="relative flex  justify-center items-center p-4 mt-10">
-        <div className="relative w-fit">
-          {user?.imageUrl ? (
-            <img src={user.imageUrl} alt={user.name} />
-          ) : user?.name ? (
-            <h1 className="w-20 h-20 rounded-full flex justify-center items-center bg-stone-50 bg-opacity-30 text-5xl">{user.name.slice(0, 1).toUpperCase()}</h1>
-          ) : (
-            <img
-              className="w-20 h-20 bg-transparent "
-              src={profileIcon}
-              alt="profile-icon"
-            />
-          )}
-          <img
-            className="absolute  -right-3 bottom-0"
-            src={editpic}
-            alt="edit-icon"
+
+      {user && (
+        <div className="w-full flex flex-col items-center">
+          <UpdateProfileImage
+            imageUrl={user.imageUrl || profileIcon}
           />
+          {!isNameEditing && (
+            <div className="mt-4 flex justify-center items-center gap-3 text-xl  w-full">
+              <p className=" text-lg font-semibold text-stone-50 font-montserrat text-center ">
+                {user.name}
+              </p>
+              <AiOutlineEdit onClick={handleEditNameClick} className="bg-blue-500 rounded-full p-[1px] text-xl" />
+            </div>
+          )}
+          {isNameEditing && (
+            <div className="mt-4 flex justify-center items-center gap-3 text-xl  w-full">
+              <input
+                onChange={handleChangeUserName}
+                type="text"
+                value={userNameAfterEdit}
+                className="text-lg font-semibold text-stone-50 font-montserrat text-center bg-slate-50 bg-opacity-20 focus:outline-none"
+              />
+              <AiOutlineCheck onClick={handleUpdateName} className="bg-green-500 rounded-full p-[1px] text-xl" />
+            </div>
+          )}
         </div>
-      </div>
+      )}
 
       <div>
         <div className="flex items-center justify-between pr-2 ">

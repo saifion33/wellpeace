@@ -91,3 +91,13 @@ interface ReplyTo{
   _id: string;
   name: string;
 }
+
+interface IUpdateUsernameData{
+  token: string;
+  updatedUsername: string;
+}
+
+interface IUpdateUserImageData{
+  token: string;
+  updatedUserImage: Blob;
+}
