@@ -15,6 +15,7 @@ import CreateChannel from "./Components/community/CreateChannel";
 import Channel from "./Components/community/Channel";
 import EventsContainer from "./Components/community/EventsContainer";
 import Chatroom from "./Components/community/Chatroom";
+import Shorts from "./Components/memory/Shorts"
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="/community/create" element={<CreateChannel/>} />
           <Route path="/user" element={<Profile />} />
           <Route path="/memory" element={<Memory/>} />
+          <Route path="/memory/shorts" element={<Shorts/>} />
         </Routes>
       </div>
     </Router>
