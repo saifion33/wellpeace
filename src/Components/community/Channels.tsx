@@ -28,7 +28,6 @@ function Channels() {
   };
 
   const handleGetAllChannels = () => {
-   
     dispatch(getAllChannels());
   };
 
@@ -38,7 +37,7 @@ function Channels() {
   }, []);
 
   return (
-    <div className="bg-custom-background-gradient py-3 px-5 max-w-md mx-auto min-h-screen">
+    <div className="bg-custom-background-gradient flex flex-col py-3 px-5 max-w-md mx-auto min-h-screen">
       <div>
         <div className="px-2">
           <FaChevronLeft className="text-stone-50 cursor-pointer size-5 " />
@@ -98,7 +97,9 @@ function Channels() {
           Create Your Own Intrest Channel
         </Link>
       </div>
-      <BottomNavigation />
+      <footer className="mt-auto fixed w-full bottom-0 left-0">
+        <BottomNavigation />
+      </footer>
     </div>
   );
 }
