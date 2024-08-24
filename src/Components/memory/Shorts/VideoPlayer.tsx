@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player/lazy";
-import { useSwipeable } from "react-swipeable";
+import { SwipeEventData, useSwipeable } from "react-swipeable";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
@@ -35,7 +35,8 @@ const VideoPlayer = () => {
     },
   ]);
 
-  const handleLike = (videoId: number) => {
+  const handleLike = (e:React.MouseEvent<HTMLDivElement>,videoId: number) => {
+    e.stopPropagation();
     const vid = videosList.find((v) => v.id == videoId);
     if (vid?.likes.includes(userId)) {
       vid.likes = vid.likes.filter((id) => id != userId);
@@ -62,7 +63,7 @@ const VideoPlayer = () => {
         transition:{ duration: 0.5 }
       };
     }
-    return {}; // Default case (shouldn't really be needed)
+    return {}; 
   };
 
   const handleSwipe = (direction: "UP" | "DOWN") => {
@@ -87,11 +88,15 @@ const VideoPlayer = () => {
     }
     setIsPlaying(true);
   };
+  const handleonswipe = (data:SwipeEventData) => {
+    console.log(data);
+  }
 
   const handlers = useSwipeable({
     onSwipedUp: () => handleSwipe("UP"),
     onSwipedDown: () => handleSwipe("DOWN"),
     trackMouse: true,
+    onSwiping:(data=>handleonswipe(data))
   });
   const scrollToCurrent = () => {
     if (videoRefs.current[currentVideoIndex]) {
@@ -142,7 +147,7 @@ const VideoPlayer = () => {
           {
             <div className="absolute bottom-10 right-0  text-3xl pr-3 text-stone-50 space-y-2">
               <div className="w-full">
-                <div onClick={() => handleLike(currentVideoIndex + 1)}>
+                <div onClick={(e) => handleLike(e,currentVideoIndex + 1)}>
                   {videosList[currentVideoIndex].likes.includes(userId) ? (
                     <FaHeart className="text-pink-700" />
                   ) : (

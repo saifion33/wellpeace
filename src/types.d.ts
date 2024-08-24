@@ -99,5 +99,5 @@ interface IUpdateUsernameData{
 
 interface IUpdateUserImageData{
   token: string;
-  updatedUserImage: Blob;
+  fd:FormData
 }
