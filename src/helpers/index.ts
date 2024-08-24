@@ -57,7 +57,11 @@ export const getRandomItems = (products: IProduct[], itemsCount: number) => {
   for (let i = 0; i < itemsCount; i++) {
     const random = Math.round(Math.random() * products.length);
     const product = products[random];
-    const isItem = randomItems.find((item) => item._id === product._id);
+    const isItem =randomItems.find((item) => {
+      if (item && product && item._id === product._id) {
+        return true;
+      }
+    });
     if (isItem) {
       itemsCount++;
       continue;
