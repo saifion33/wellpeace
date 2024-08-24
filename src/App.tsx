@@ -15,7 +15,7 @@ import CreateChannel from "./Components/community/CreateChannel";
 import Channel from "./Components/community/Channel";
 import EventsContainer from "./Components/community/EventsContainer";
 import Chatroom from "./Components/community/Chatroom";
-import Shorts from "./Components/memory/Shorts"
+import Shorts from "./Components/memory/Shorts/Shorts"
 
 function App() {
   return (

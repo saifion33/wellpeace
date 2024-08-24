@@ -1,35 +1,12 @@
-import { FaChevronLeft } from "react-icons/fa";
-import staricon from "../../assets/icons/star icon.svg";
 import image1 from "../../assets/icons/memory mosaic image 1.svg";
-
 import BottomNavigation from "../common/BottomNavigation";
+import Header from "./Header";
+
+
 function Memory() {
   return (
     <div className="bg-custom-background-gradient relative flex-wrap max-w-md mx-auto ">
-      <header className="bg-slate-50 bg-opacity-20 backdrop-blur-xl sticky top-0 left-0 z-20 py-2">
-        <div className="flex justify-between items-center px-4">
-          <div className="">
-            <FaChevronLeft className="text-stone-50 cursor-pointer size-5" />
-          </div>
-          <div>
-            <p className="font-poppins text-white text-center">Memory Mosaic</p>
-          </div>
-          <div className="">
-            <img src={staricon} alt="Star icon" />
-          </div>
-        </div>
-        {/* <div className="flex p-3 text-stone-50">
-          <Link
-            className="w-1/2 text-center pb-2 border-b-4 border-slate-950"
-            to={"/memory"}
-          >
-            Memory
-          </Link>
-          <Link className="w-1/2 text-center pb-2 border-b-4" to={"/memory/shorts"}>
-            Shorts
-          </Link>
-        </div> */}
-      </header>
+    <Header/>
       <div>
         <div className="relative">
           <img
