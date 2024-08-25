@@ -55,7 +55,7 @@ export const signinWithEmail = async (data: ISignupData) => {
 export const getRandomItems = (products: IProduct[], itemsCount: number) => {
   const randomItems: IProduct[] = [];
   for (let i = 0; i < itemsCount; i++) {
-    const random = Math.round(Math.random() * products.length);
+    const random = Math.round(Math.random() * products.length-1);
     const product = products[random];
     const isItem =randomItems.find((item) => {
       if (item && product && item._id === product._id) {

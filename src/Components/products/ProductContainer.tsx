@@ -6,11 +6,12 @@ interface IProps {
   loading: boolean;
 }
 const ProductContainer = ({ products, loading }: IProps) => {
+  console.log(products)
   return (
     <section className="products-container max-w-6xl mx-auto ">
       <main className="flex flex-wrap justify-center gap-3  py-4">
-        {!loading &&
-          products &&
+        {(!loading &&
+          products )&&
           products.map((product) => {
             return <ProductCard key={product._id} product={product} />;
           })}
