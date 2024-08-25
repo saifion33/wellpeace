@@ -97,9 +97,11 @@ function Channels() {
           Create Your Own Intrest Channel
         </Link>
       </div>
-      <footer className="mt-auto fixed w-full bottom-0 left-0">
-        <BottomNavigation />
-      </footer>
+      <div className="w-full flex justify-center items-center">
+        <footer className="mt-auto fixed w-full bottom-0  max-w-md ">
+          <BottomNavigation />
+        </footer>
+      </div>
     </div>
   );
 }
