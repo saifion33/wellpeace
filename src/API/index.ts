@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const localhost_url ="http://192.168.34.50:5000";
+const localhost_url ="http://192.168.29.50:5000";
 const backend_url="https://wellpeace-backend.onrender.com";
 
 const api=axios.create({
@@ -15,3 +15,4 @@ export const updateUsernameApi=(data:IUpdateUsernameData)=>api.patch("/auth/upda
 export const updateUserImageApi=(data:FormData)=>api.patch("/auth/updateUserImage",data,{headers:{Authorization:`Bearer ${data.get('token')}`}});
 export const getUserInfoApi=(_id:string)=>api.get(`/auth/getUserInfo?_id=${_id}`);
 export const getAllProductsApi=()=>api.get('/products/all');
+export const getShortVideoApi=(token:string)=>api.get('/videos/all',{headers:{Authorization:`Bearer ${token}`}});

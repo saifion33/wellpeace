@@ -101,3 +101,30 @@ interface IUpdateUserImageData{
   token: string;
   fd:FormData
 }
+
+interface IComment {
+  _id:string;
+  content:string;
+  createdAt:object;
+  user:{
+    _id:string;
+    name:string;
+    imageUrl:string | null;
+  }
+}
+
+interface IVideo{
+  _id:string;
+  title:string;
+  description:string;
+  tags:string[];
+  url:string;
+  comments:IComment[];
+  likes:string[];
+  uploadedAt:object;
+  user:{
+    _id:string;
+    name:string;
+    imageUrl:string | null;
+  }
+}

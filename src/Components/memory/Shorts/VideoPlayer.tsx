@@ -6,44 +6,29 @@ import { FaCirclePlay } from "react-icons/fa6";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { TbMessageCircle } from "react-icons/tb";
 import { BsFillSendFill } from "react-icons/bs";
+import { ImSpinner2 } from "react-icons/im";
 
-const VideoPlayer = () => {
+interface Iprops{
+  videosList:IVideo[];
+}
+const VideoPlayer = ({videosList}:Iprops) => {
   const videoRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isBuffering, setIsBuffering] = useState(false);
   const [swipeDirection, setSwipeDirection] = useState<"UP" | "DOWN" | null>(
     null
   );
   const userId = "dljfid";
-  const [videosList, setvideosList] = useState([
-    {
-      id: 1,
-      url: "https://res.cloudinary.com/dwhwlxysm/video/upload/f_auto:video,q_auto/wellpeace-anime-night_xbdtuj",
-      likes: ["kdfj"],
-      comments: [{ _id: "1", content: "", user: { _id: "2" } }],
-    },
-    {
-      id: 2,
-      url: "https://res.cloudinary.com/dwhwlxysm/video/upload/f_auto:video,q_auto/wellpeace-waterfall-moon_jdma5o",
-      likes: ["dljfid", "dkjfifej"],
-      comments: [{ _id: "1", content: "", user: { _id: "2" } }],
-    },
-    {
-      id: 3,
-      url: "https://res.cloudinary.com/dwhwlxysm/video/upload/f_auto:video,q_auto/wellpeace-sunrise_h8p8ea",
-      likes: ["dljfid", "dkjfifej", "kdjf"],
-      comments: [{ _id: "1", content: "", user: { _id: "2" } }],
-    },
-  ]);
-
-  const handleLike = (e:React.MouseEvent<HTMLDivElement>,videoId: number) => {
+  
+  const handleLike = (e: React.MouseEvent<HTMLDivElement>, videoId:string) => {
     e.stopPropagation();
-    const vid = videosList.find((v) => v.id == videoId);
+    const vid = videosList.find((v) => v._id == videoId);
     if (vid?.likes.includes(userId)) {
       vid.likes = vid.likes.filter((id) => id != userId);
     } else {
       vid?.likes.push(userId);
     }
-    vid && setvideosList((prev) => [...prev, vid]);
+    
   };
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
@@ -53,17 +38,17 @@ const VideoPlayer = () => {
         initial: { opacity: 0, y: 100 },
         animate: { opacity: 1, y: 0 },
         exit: { opacity: 0, y: -100 },
-        transition:{ duration: 0.5 }
+        transition: { duration: 0.5 },
       };
     } else if (swipeDirection === "DOWN") {
       return {
         initial: { opacity: 0, y: -100 },
         animate: { opacity: 1, y: 0 },
         exit: { opacity: 0, y: 100 },
-        transition:{ duration: 0.5 }
+        transition: { duration: 0.5 },
       };
     }
-    return {}; 
+    return {};
   };
 
   const handleSwipe = (direction: "UP" | "DOWN") => {
@@ -81,22 +66,22 @@ const VideoPlayer = () => {
       setSwipeDirection("DOWN");
       setCurrentVideoIndex((prevIndex) => {
         if (prevIndex == 0) {
-          return videosList.length-1;
+          return videosList.length - 1;
         }
         return prevIndex - 1;
       });
     }
     setIsPlaying(true);
   };
-  const handleonswipe = (data:SwipeEventData) => {
+  const handleonswipe = (data: SwipeEventData) => {
     console.log(data);
-  }
+  };
 
   const handlers = useSwipeable({
     onSwipedUp: () => handleSwipe("UP"),
     onSwipedDown: () => handleSwipe("DOWN"),
     trackMouse: true,
-    onSwiping:(data=>handleonswipe(data))
+    onSwiping: (data) => handleonswipe(data),
   });
   const scrollToCurrent = () => {
     if (videoRefs.current[currentVideoIndex]) {
@@ -108,6 +93,18 @@ const VideoPlayer = () => {
   const handleVideoClick = () => {
     setIsPlaying((prev) => !prev);
   };
+  const onVideoReady=()=>{
+    console.log("onVideoReady");
+  }
+  const handleStartBuffering=()=>{
+    setIsBuffering(true);
+    console.log("video is buffering");
+  }
+  const handleEndBuffering=()=>{
+    setIsBuffering(false);
+    console.log("video buffering is end");
+  }
+
 
   // Scroll to the current video when the index changes
   useEffect(() => {
@@ -122,7 +119,7 @@ const VideoPlayer = () => {
     >
       <AnimatePresence initial={false} custom={currentVideoIndex}>
         <motion.div
-          key={videosList[currentVideoIndex].id}
+          key={videosList[currentVideoIndex]._id}
           //   initial={{ opacity: 0, y: 100 }}
           //   animate={{ opacity: 1, y: 0 }}
           //   exit={{ opacity: 0, y: -100 }}
@@ -137,17 +134,25 @@ const VideoPlayer = () => {
             controls={false}
             width="100%"
             height="100%"
+            loop
             className="object-cover"
+            onReady={()=>onVideoReady()}
+            onBuffer={handleStartBuffering}
+            onBufferEnd={handleEndBuffering}
+            fallback={<div className="flex justify-center items-start h-full text-stone-50">Video is loading</div>}
           />
           {!isPlaying && (
             <div className="absolute top-1/2 left-1/2 text-7xl -translate-x-1/2 -translate-y-1/2 text-stone-50">
               <FaCirclePlay />
             </div>
           )}
+          {isBuffering && <div className="absolute top-1/2 left-1/2 text-5xl -translate-x-1/2 -translate-y-1/2 text-stone-50">
+              <ImSpinner2 className="animate-spin"/>
+            </div>}
           {
             <div className="absolute bottom-10 right-0  text-3xl pr-3 text-stone-50 space-y-2">
               <div className="w-full">
-                <div onClick={(e) => handleLike(e,currentVideoIndex + 1)}>
+                <div onClick={(e) => handleLike(e, videosList[currentVideoIndex]._id)}>
                   {videosList[currentVideoIndex].likes.includes(userId) ? (
                     <FaHeart className="text-pink-700" />
                   ) : (
