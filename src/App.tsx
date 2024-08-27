@@ -16,6 +16,7 @@ import Channel from "./Components/community/Channel";
 import EventsContainer from "./Components/community/EventsContainer";
 import Chatroom from "./Components/community/Chatroom";
 import Shorts from "./Components/memory/Shorts/Shorts"
+import UploadMemory from "./Components/memory/UploadMemory";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
           <Route path="/community/create" element={<CreateChannel/>} />
           <Route path="/user" element={<Profile />} />
           <Route path="/memory" element={<Memory/>} />
+          <Route path="/memory/upload" element={<UploadMemory/>} />
           <Route path="/memory/shorts" element={<Shorts/>} />
         </Routes>
       </div>

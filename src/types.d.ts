@@ -128,3 +128,5 @@ interface IVideo{
     imageUrl:string | null;
   }
 }
+
+type FilePreviewType="audio"|"video"|"image";
