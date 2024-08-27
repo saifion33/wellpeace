@@ -24,14 +24,13 @@ const UploadMemory = () => {
         <Header />
         <main className={` h-[88vh] overflow-y-scroll no-scrollbar relative flex justify-center`}>
           {fileToUpload && <IoCloseCircle onClick={handleReset} title="Cancel" className="text-4xl text-red-500 absolute top-4 right-4 cursor-pointer border-2 border-stone-50 rounded-full" />}
-          <section>
-            {preview && fileType && (
-              <FilePreview fileType={fileType} fileUrl={preview} />
-            )}
+          {preview && fileType && (<section className="w-full ">
+            <FilePreview fileType={fileType} fileUrl={preview} />
           </section>
+          )}
           <div className={!preview ? "my-auto" : "fixed bottom-14 flex justify-center w-full"}>
             {
-              !preview && <div>
+              !preview && <div className="">
                 <ImageSlider />
                 <p className="p-3 text-center text-slate-700">
                   Every moment is a story waiting to be cherished. Capture your
