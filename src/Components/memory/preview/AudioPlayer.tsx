@@ -31,6 +31,7 @@ const AudioPlayer = ({ audioUrl }: IProps) => {
             setIsPlaying(true);
         }
     }
+
     const handleTimeUpdate = () => {
         const currentTime = audioRef.current?.currentTime || 0
         setAudioCurrentTime(currentTime);
@@ -38,12 +39,14 @@ const AudioPlayer = ({ audioUrl }: IProps) => {
             setProgress((currentTime / audioRef.current.duration) * 100)
         }
     }
+
     const handleAudioEnded = () => {
         audioRef.current?.pause();
         setIsPlaying(false);
         setProgress(0);
         setAudioCurrentTime(0);
     }
+
     useEffect(() => {
         const audioTag = audioRef.current
         if (audioTag) {
@@ -58,12 +61,14 @@ const AudioPlayer = ({ audioUrl }: IProps) => {
             audioTag?.removeEventListener("ended", handleAudioEnded);
         }
     }, []);
+    
     return (
         <div className="w-[98%] mt-20 bg-stone-50 bg-opacity-25 rounded-md p-4 ">
             <div className="">
-                <div className="w-40 h-40 bg-stone-50 bg-opacity-50 animate-spin rounded-full mx-auto border-[1px] border-slate-400 flex justify-center items-center">
+                <div className={`${isPlaying?'animate-spin-slow':'animate-none'} w-40 h-40 bg-stone-50 bg-opacity-50  rounded-full mx-auto border-[1px] border-slate-400 relative flex justify-center items-center`}>
                     <div className="h-9 w-9 bg-stone-50 rounded-full border border-slate-400">
                     </div>
+                    <span className="absolute top-10 left-10 h-2 w-2 bg-slate-900 bg-opacity-15 rounded-full"></span>
                 </div>
             </div>
             <div className="text-stone-50 mt-6 flex justify-between items-center gap-2">
@@ -71,7 +76,7 @@ const AudioPlayer = ({ audioUrl }: IProps) => {
                 <div className="flex items-center gap-2 w-full">
                     <p>{formatTime(audioCurrentTime)}</p>
                     <div className="w-[80%] bg-stone-50 bg-opacity-70 h-3 rounded-lg flex items-center border border-slate-500">
-                        <div style={{ width: `${progress}%`}} className="h-full rounded-full bg-purple-600"></div>
+                        <div style={{ width: `${progress}%`}} className="h-full rounded-full bg-pinkishPurple"></div>
                     </div>
                     <p>{formatTime(audioDuration)}</p>
                 </div>
