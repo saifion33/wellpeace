@@ -2,14 +2,15 @@ import { IoAddCircle } from "react-icons/io5";
 import { toast } from "react-toastify";
 
 interface IProps {
+  isFileUploading: boolean;
   fileToUpload: File | null;
-  setFileToUpload: (file: File) => void;
-  setFileType: (fileType: FilePreviewType) => void;
-  setPreview: (preview: string) => void;
-
+  setFileToUpload: (file: File|null) => void;
+  setFileType: (fileType: FilePreviewType|null) => void;
+  setPreview: (preview: string|null) => void;
 }
+
 const maxSizeInMB = 10;
-const UploadButton = ({ fileToUpload,setFileToUpload, setFileType, setPreview }: IProps) => {
+const UploadButton = ({ fileToUpload, isFileUploading, setFileToUpload, setFileType, setPreview }: IProps) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -25,7 +26,7 @@ const UploadButton = ({ fileToUpload,setFileToUpload, setFileType, setPreview }:
       } else if (fileType.startsWith("audio/")) {
         setFileType("audio");
       } else {
-        toast.warning("Only Video Audio and Image are allowed.");
+        toast.warning("Only Video, Audio and Image are allowed.");
       }
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -37,18 +38,25 @@ const UploadButton = ({ fileToUpload,setFileToUpload, setFileType, setPreview }:
     }
   };
 
+ 
+
   return (
     <div>
-      <label className="bg-stone-50 bg-opacity-20 w-fit mx-auto backdrop-blur-md py-2 px-4 text-xl text-stone-50 cursor-pointer font-semibold rounded-md flex items-center  gap-2 " htmlFor="memory-input">
-        {fileToUpload ? "Select Another" : "Upload"} <IoAddCircle className="text-3xl" />
-      </label>
-      <input
-        type="file"
-        accept="image/*,video/*,audio/*"
-        onChange={handleFileChange}
-        className="hidden"
-        id="memory-input"
-      />
+      {
+        (!isFileUploading && !fileToUpload) && <>
+          <label className="bg-stone-50 bg-opacity-20 w-fit mx-auto backdrop-blur-md py-2 px-4 text-xl text-stone-50 cursor-pointer font-semibold rounded-md flex items-center  gap-2 " htmlFor="memory-input">Upload<IoAddCircle className="text-3xl" />
+          </label>
+          <input
+            type="file"
+            accept="image/*,video/*,audio/*"
+            onChange={handleFileChange}
+            className="hidden"
+            id="memory-input"
+          />
+        </>
+      }
+      
+
     </div>
   );
 };

@@ -7,11 +7,11 @@ interface IProps {
 
 const FilePreview = ({ fileType, fileUrl }: IProps) => {
   return (
-    <div className=" w-full">
+    <div className=" w-full flex justify-center">
       {fileType === "image" && <img src={fileUrl} alt="file" />}
       {fileType === "audio" && <AudioPlayer audioUrl={fileUrl} />}
       {fileType === "video" && <div className="w-full h-[88vh] relative flex justify-center ">
-        <ReactPlayer url={fileUrl} pip={false} controls width={"100%"} height={"100%"} />
+        <ReactPlayer url={fileUrl} pip={false} controls width={"100%"}  />
       </div>}
     </div>
   )

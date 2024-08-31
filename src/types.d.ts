@@ -102,6 +102,12 @@ interface IUpdateUserImageData{
   fd:FormData
 }
 
+interface IMemoryForm{
+  feelings:string;
+  date:string;
+  tags:string;
+}
+
 interface IComment {
   _id:string;
   content:string;

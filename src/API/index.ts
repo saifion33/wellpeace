@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const localhost_url ="http://192.168.106.50:5000";
+const localhost_url ="http://192.168.156.50:5000";
 const backend_url="https://wellpeace-backend.onrender.com";
 
 const api=axios.create({
